@@ -42,3 +42,4 @@ C:\Users\vukma\OneDrive\parrot\parrot\bin\Debug\net8.0\sv\Spectre.Console.Cli.re
 C:\Users\vukma\OneDrive\parrot\parrot\bin\Debug\net8.0\SixLabors.ImageSharp.dll
 C:\Users\vukma\OneDrive\parrot\parrot\bin\Debug\net8.0\Spectre.Console.ImageSharp.dll
 C:\Users\vukma\OneDrive\parrot\parrot\obj\Debug\net8.0\parrot.csproj.Up2Date
+C:\Users\vukma\OneDrive\parrot\parrot\obj\Debug\net8.0\parrot.sourcelink.json

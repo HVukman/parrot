@@ -481,7 +481,7 @@ namespace Do_forth {
 
                 else if (comparisons.Contains(command))
                 {
-                Printstack(myList);
+              //  Printstack(myList);
                 try
                 {
                     if (myList.Count > 1)

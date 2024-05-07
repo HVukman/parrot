@@ -307,12 +307,12 @@ public class Parrot
                             {
                                 int loop_i = loop_control_stack[loop_control_stack.Length() - 2];
                                 control_buffer_stack.Add(loop_i.ToString());
-                                //Console.Write("index i: ", loop_i);
+            //                    Console.Write("index i: ", loop_i);
                             }
 
                             else 
                             {
-                                Console.Write(word);
+                  //              Console.Write(word);
                                 (control_buffer_stack, control_flow_stack, violate) = DoForth.doSth(control_buffer_stack, control_flow_stack,
                                 word.ToLower(), OP_CODES.IF_Mode, do_loop_flag, loop_control_stack);
                             }
@@ -366,17 +366,7 @@ public class Parrot
 
                         else if (modes == OP_CODES.IF_THEN_Mode)
                         {
-                            if (do_loop_flag == true && word == increment && loop_control_stack.Length() > 1)
-                            // Use loop index while in loop
-                            // Length check for own safety
-
-                            {
-                                int loop_i = loop_control_stack[loop_control_stack.Length() - 2];
-                                stack.Add(loop_i.ToString());
-                                //Console.Write("index i: ", loop_i);
-                            }
-
-                            else {
+      
 
                                 switch (boolean_control_flow)
                                 {
@@ -392,44 +382,44 @@ public class Parrot
                                             
                                             else if (do_loop_flag == true && word == increment && loop_control_stack.Length() > 1)
                                             // Use loop index while in loop
-                                            // Length check for own safety
+                                            // Length check for own safety⌈
 
                                             {
                                                 int loop_i = loop_control_stack[loop_control_stack.Length() - 2];
                                                 stack.Add(loop_i.ToString());
-                                                //Console.Write("index i: ", loop_i);
+          //                                      Console.Write("index i: ", loop_i);
                                             }
 
-                                            else
+                                            else if (word != increment && do_loop_flag == true && loop_control_stack.Length() > 1)
                                             {
                                                 (stack, control_flow_stack, violate) = DoForth.doSth(stack, control_flow_stack, word.ToLower(), OP_CODES.Interpret,
                                                     do_loop_flag, loop_control_stack);
                                             }
 
-                                        }
 
-                                        else if (boolean_control_flow == true && word == "else")
-                                        {
-                                            boolean_control_flow = false;
+                                            else if (boolean_control_flow == true && word == "else")
+                                            {
+                                                boolean_control_flow = false;
 
-                                        }
-                                        else if (boolean_control_flow == false && (word == ";" || word == "\n"))
-                                        {
+                                            }
+                                            else if (boolean_control_flow == false && (word == ";" || word == "\n"))
+                                            {
 
-                                            modes = OP_CODES.Interpret;
-                                        }
-                                        else
-                                        {
+                                                modes = OP_CODES.Interpret;
+                                            }
+                                            else
+                                            {
 
-                                            continue;
-                                        }
+                                                continue;
+                                            }
 
-                                        break;
+                                    }
+                                    break;
 
 
                                     case false:
 
-                                        Console.WriteLine(word);
+                           //             Console.WriteLine(word);
                                         if (boolean_control_flow == false && word != "else")
                                         {
 
@@ -448,6 +438,7 @@ public class Parrot
 
                                             modes = OP_CODES.Interpret;
                                         }
+
                                         else if (do_loop_flag == true && word == increment && loop_control_stack.Length() > 1)
                                         // Use loop index while in loop
                                         // Length check for own safety
@@ -458,7 +449,7 @@ public class Parrot
                                             //Console.Write("index i: ", loop_i);
                                         }
 
-                                        else if (boolean_control_flow == true && (word != ";" || word != "\n"))
+                                        else if (boolean_control_flow == true && (word != ";" && word != "\n" && word!=increment))
 
                                         {
                                             // PRINT STATEMENT
@@ -466,19 +457,17 @@ public class Parrot
 
                                             (stack, control_flow_stack, violate) = DoForth.doSth(stack, control_flow_stack,
                                                 word.ToLower(), OP_CODES.Interpret, do_loop_flag, loop_control_stack);
+                                            
                                         }
+                                    break;
 
-                                        break;
-                                }
-                            
                             }
 
                         }
 
-                        else if (word == "do" && (modes != OP_CODES.Compile_Func && modes != OP_CODES.Compile_Word))
+                        else if (word == "do")
                         {
-                            int loop_end;
-                            int loop_start;
+                            
                             try
                             {
                                 // check forth, parse and access exceptions!
@@ -489,12 +478,14 @@ public class Parrot
                                     // Whatever
                                 }
 
-                                else {
+                                else if (do_loop_flag == false)
+                                {
 
-
+                                    int loop_end;
+                                    int loop_start;
                                     loop_start = int.Parse(stack[stack.Length() - 2]);
                                     loop_end = int.Parse(stack[stack.Length() - 1]);
-                                    
+
                                     if (loop_end < loop_start)
                                     {
                                         violate = true;
@@ -507,19 +498,19 @@ public class Parrot
                                     {
                                         loop_control_stack.Add(loop_start);
                                         loop_control_stack.Add(loop_end);
-                                        loop_control_stack[loop_control_stack.Length() - 2] = loop_start;
-                                        loop_control_stack[loop_control_stack.Length() - 1] = loop_end;
-                                        //stack.RemoveAt(stack.Length() - 1);
-                                        //stack.RemoveAt(stack.Length() - 1);
+                                        //loop_control_stack[loop_control_stack.Length() - 2] = loop_start;
+                                        //loop_control_stack[loop_control_stack.Length() - 1] = loop_end;
+                                        stack.RemoveAt(stack.Length() - 1);
+                                        stack.RemoveAt(stack.Length() - 1);
                                         do_loop_flag = true;
 
                                     }
 
                                 }
-
-                                // put end and beginning to do_loop_stack
-                                // delete from stack
-
+                                else if (do_loop_flag == true)
+                                {
+                                   
+                                }
                             }
 
                             catch (FormatException e)
@@ -540,7 +531,7 @@ public class Parrot
                             }
                         }
 
-                        else if (word == "loop" && (modes != OP_CODES.Compile_Func && modes != OP_CODES.Compile_Word))
+                        else if (word == "loop")
 
                         // sees loop
                         {
@@ -555,7 +546,7 @@ public class Parrot
                             else
                             // all good
                             {
-                                // decrement top index until ==
+                                // increment index until ==
                                 loop_control_stack[loop_control_stack.Length() -2]++;
                                 if (loop_control_stack[loop_control_stack.Length() - 1] == loop_control_stack[loop_control_stack.Length() - 2])
 
@@ -574,17 +565,20 @@ public class Parrot
                                         modes = OP_CODES.Interpret;
 
                                     }
-                                    while (word != "do")
-                                    // decrease register until do!
+                                    
+                                        while (word != "do")
+                                        // decrease register until do!
 
-                                    {
+                                        {
 
-                                        register--;
-                                        // Console.WriteLine("register: ", register.ToString());
-                                        // Console.WriteLine("word: ", word);
-                                        word = words[register];
+                                            register--;
+                                            // Console.WriteLine("register: ", register.ToString());
+                                            // Console.WriteLine("word: ", word);
+                                            word = words[register];
 
-                                    }
+                                        }
+
+
 
                                 }
 
@@ -600,7 +594,7 @@ public class Parrot
 
                             modes = OP_CODES.Interpret;
 
-                            Console.WriteLine("Back to interpret mode");
+                        //    Console.WriteLine("Back to interpret mode");
                             // Break out of loop statement
                             do_loop_flag = false;
                         }
@@ -630,7 +624,9 @@ public class Parrot
                         }
                     }
                 }
-                    DoForth.Printstack(stack);
+
+                // Print Stack after each word!
+                  //  DoForth.Printstack(stack);
                 }
 
 
@@ -639,8 +635,9 @@ public class Parrot
 
             control_flow_stack.Clear();
             loop_control_stack.Clear();
+            do_loop_flag = false;
             // Console.WriteLine("control stack clear");
-            // DoForth.Printstack(stack);
+            DoForth.Printstack(stack);
 
             modes = OP_CODES.Interpret;
             words.Clear();
