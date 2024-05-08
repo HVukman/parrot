@@ -12,6 +12,9 @@ using LanguageExt.Common;
 using System.Linq.Expressions;
 using System.Numerics;
 using Microsoft.VisualBasic;
+using LanguageExt.ClassInstances.Pred;
+using System.Collections;
+
 
 
 namespace Do_forth {
@@ -193,7 +196,46 @@ namespace Do_forth {
             myList.Add(y.ToString());
         }
 
+        public static bool Fetch(List<string> myList, Dictionary<string, string> CustomVars)
+        {
+            bool violate;
+            string key = myList.Last().ToString();
+            myList.RemoveAt(myList.Length() - 1);
+            string value;
+            if (CustomVars.TryGetValue(key, out value))
+            {
+                Console.WriteLine("Fetched value: {0}", value);
+                myList.Add(value);
+                violate = false;
+            }
+            else
+            {
+                Console.WriteLine("No such key: {0}", key);
+                violate=true;
+            }
+            return violate;
+        }
 
+        public static bool Define(List<string> myList, Dictionary<string,string> CustomVars)
+        {
+            bool violate;
+            try {
+                string name = myList.Last();
+                myList.RemoveAt(myList.Count - 1);
+                var value = myList.Last().ToString();
+                CustomVars.Add(name, value);
+                myList.RemoveAt(myList.Count - 1);
+                Console.WriteLine("stored " + name + " with value " + value);
+                violate = false;
+                }
+            catch (ArgumentException)
+            {
+                Console.WriteLine("argument exception while defining!");
+                violate = true;
+            }
+            return violate;
+
+        }
 
         public static bool Bool_checks(string command, List<string> myList, List<bool> flow_check, Parrot.OP_CODES mode , bool violate)
         {
@@ -331,17 +373,19 @@ namespace Do_forth {
         }
 
 
-            public static (List<string>, List<bool>, bool) doSth(List<string> myList, List<bool> control_buffer_stack, string command, Parrot.OP_CODES mode, bool loop_flag, List<int> loop_control_stack)
+            public static (List<string>, List<bool>, bool, Dictionary<string,string>) doSth(List<string> myList, List<bool> control_buffer_stack, 
+                string command, Parrot.OP_CODES mode, bool loop_flag, List<int> loop_control_stack, Dictionary<string,string> CustomVars)
 
             {
                 int number;
 
 
-                string[] mult_add_commands = Constants.Consts.mult_add_commands;
-                string[] standard_stackops = Constants.Consts.standard_stackops;
-                string[] extrawords = Constants.Consts.extrawords;
-                string[] comparisons = Constants.Consts.comparisons;
-                string[] extraops = Constants.Consts.ext_stackops;
+                string[] mult_add_commands = Consts_Variables.mult_add_commands;
+                string[] standard_stackops = Consts_Variables.standard_stackops;
+                string[] extrawords = Consts_Variables.extrawords;
+                string[] comparisons = Consts_Variables.comparisons;
+                string[] extraops = Consts_Variables.ext_stackops;
+                string[] definitions = Consts_Variables.definitions;
                 bool violate= false;
 
                 dynamic[] return_op = [0, false];
@@ -350,138 +394,164 @@ namespace Do_forth {
 
                 string pattern = @"^""[\w\s!:\(\)]+""$";
 
-                // Add integer to stack
-                if (int.TryParse(command, out number) == true)
-                {
-                    myList.Add(command);
+            // Add integer to stack
+            if (int.TryParse(command, out number) == true)
+            {
+                myList.Add(command);
 
+            }
+
+            // Add string to stack
+
+            else if (Regex.IsMatch(command, pattern))
+            {
+                myList.Add(command);
+
+            }
+
+            // Perform mult add commands on stack
+
+            else if (mult_add_commands.Contains(command))
+            {
+
+                if (myList.Count > 1)
+                {
+                    (result, success_add) = Operation(myList, command);
+                }
+                else
+                {
+                    Console.WriteLine("Stack underflow!");
+                    violate = true;
                 }
 
-                // Add string to stack
+            }
 
-                else if (Regex.IsMatch(command, pattern))
+            // define words and vars
+
+            // Perform mult add commands on stack
+
+            else if (definitions.Contains(command))
+            {
+
+                if (myList.Count > 1)
                 {
-                    myList.Add(command);
-
+                    violate = Define(myList, CustomVars);
                 }
 
-                // Perform mult add commands on stack
-
-                else if (mult_add_commands.Contains(command))
+                else
                 {
+                    Console.WriteLine("Stack too small for definitions");
+                    violate = true;
+                }
+            }
 
-                    if (myList.Count > 1)
+            // Perform standard words on stack
+
+
+            else if (standard_stackops.Contains(command))
+
+            {
+                if (myList.Count > 0)
+                {
+                    switch (command)
+
                     {
-                        (result,success_add) = Operation(myList, command);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Stack underflow!");
-                        violate = true;
-                }
+                        case "drop":
+                            Pop(myList);
+                            break;
 
-                }
+                        case "fetch":
+                            
+                            violate=Fetch(myList,CustomVars);
+                            break;
 
-
-                // Perform standard words on stack
-
-
-                else if (standard_stackops.Contains(command))
-
-                {
-                    if (myList.Count > 0)
-                    {
-                        switch (command)
-
-                        {
-                            case "drop":
-                                Pop(myList);
-                                break;
-
-                            case "swap":
-                                if (myList.Count > 1)
-                                    {
-                                        Swap(myList);
-                                    }
-                                else { 
+                        case "swap":
+                            if (myList.Count > 1)
+                            {
+                                Swap(myList);
+                            }
+                            else
+                            {
                                 Console.WriteLine("Stack underflow for swap! must be bigger than 1!");
                                 violate = true;
 
-                                     }
-                                break;
-
-                            case "dup":
-                                Dup(myList);
-                                break;
-
-                            case "rot":
-                                if (myList.Count > 2)
-                                {
-                                    Rot(myList);
-                                }
-                                else
-
-                                {
-                                    Console.WriteLine("Stack underflow! Must be bigger than 2!");
-                                    violate = true;
-                                }
-                                break;
-
-                            case "nip":
-
-                                if (myList.Count > 1)
-                                {
-                                    Nip(myList);
-                                }
-                                else {
-                                violate = true;
-                                Console.WriteLine("Stack underflow for swap! must be bigger than 1!"); 
-                            
                             }
-                                break;
+                            break;
+
+                        case "dup":
+                            Dup(myList);
+                            break;
+
+                        case "rot":
+                            if (myList.Count > 2)
+                            {
+                                Rot(myList);
+                            }
+                            else
+
+                            {
+                                Console.WriteLine("Stack underflow! Must be bigger than 2!");
+                                violate = true;
+                            }
+                            break;
+
+                        case "nip":
+
+                            if (myList.Count > 1)
+                            {
+                                Nip(myList);
+                            }
+                            else
+                            {
+                                violate = true;
+                                Console.WriteLine("Stack underflow for swap! must be bigger than 1!");
+
+                            }
+                            break;
 
 
-                            case "over":
+                        case "over":
 
-                                if (myList.Count > 1)
-                                {
-                                    Over(myList);
-                                }
-                                else {
+                            if (myList.Count > 1)
+                            {
+                                Over(myList);
+                            }
+                            else
+                            {
 
                                 violate = true;
-                                Console.WriteLine("Stack underflow for swap! must be bigger than 1!"); 
-                            
+                                Console.WriteLine("Stack underflow for swap! must be bigger than 1!");
+
                             }
-                                break;
+                            break;
 
 
-                            case "clear":
-                                    Clear(myList);
-                                    break;
+                        case "clear":
+                            Clear(myList);
+                            break;
 
-                            case "rev":
-                                    Rev(myList);
-                                    break;
-                            case "dump":
-                                    Dump(myList);
-                                    break;
-                        }
+                        case "rev":
+                            Rev(myList);
+                            break;
+                        case "dump":
+                            Dump(myList);
+                            break;
                     }
-                    else
+                }
+                else
 
-                    {
-                        Console.WriteLine("Stack underflow! Must be bigger than 0!");
-                    }
-
+                {
+                    Console.WriteLine("Stack underflow! Must be bigger than 0 for command " + command + "!");
                 }
 
+            }
 
-                // Perform booleans on stack
 
-                else if (comparisons.Contains(command))
-                {
-              //  Printstack(myList);
+            // Perform booleans on stack
+
+            else if (comparisons.Contains(command))
+            {
+                //  Printstack(myList);
                 try
                 {
                     if (myList.Count > 1)
@@ -492,19 +562,19 @@ namespace Do_forth {
                     {
                         violate = true;
                         throw new DoForthErrorException("Stack too small for comparisons!");
-                        
+
                     }
                 }
                 catch (DoForthErrorException)
                 {
                     Printstack(myList);
                 }
-                }
-                    
-             
-                // perform special ops ons stack
-                else if (extraops.Contains(command))
-                {
+            }
+
+
+            // perform special ops ons stack
+            else if (extraops.Contains(command))
+            {
 
                 switch (command)
                 {
@@ -517,61 +587,61 @@ namespace Do_forth {
                 }
 
 
-                }
-                // Perform extra words on stack
+            }
+            // Perform extra words on stack
 
-                else if (extrawords.Contains(command))
+            else if (extrawords.Contains(command))
+            {
+
+                switch (command)
                 {
-
-                    switch (command)
-                    {
-                        case "writedump":
-                            Writedump(myList);
-                            break;
-                        case "loaddump":
-                            Loaddump(myList);
-                            break;
-                    }
-
+                    case "writedump":
+                        Writedump(myList);
+                        break;
+                    case "loaddump":
+                        Loaddump(myList);
+                        break;
                 }
 
-                // Print Stack
+            }
 
-                else if (command == "echo")
+            // Print Stack
 
-                {
-                    Printstack(myList);
-                }
+            else if (command == "echo")
 
-                // Dump on screen
+            {
+                Printstack(myList);
+            }
 
-                else if (command == "dump")
+            // Dump on screen
 
-                {
-                    Dump(myList);
-                }
+            else if (command == "dump")
 
-                else if (command=="inc" && loop_flag==true)
-            
-                {
-                    int inc = loop_control_stack[loop_control_stack.Length() - 2];
-                    Console.WriteLine(inc);
-                    myList.Add(inc.ToString());
-                }
+            {
+                Dump(myList);
+            }
+
+            else if (command == "inc" && loop_flag == true)
+
+            {
+                int inc = loop_control_stack[loop_control_stack.Length() - 2];
+                Console.WriteLine(inc);
+                myList.Add(inc.ToString());
+            }
 
 
 
-                // Unknown words
-                else
-                {
+            // Unknown words
+            else
+            {
 
                 success_add = false;
                 violate = true;
-                Console.WriteLine("Unknown command: ", command);
-                 Printstack(myList);
+                Console.WriteLine("Unknown command: " + command);
+                Printstack(myList);
                 // throw new DoForthErrorException("Unknown command " + command); 
 
-                }
+            }
 
                 if (success_add == true)
                 {
@@ -595,7 +665,7 @@ namespace Do_forth {
                     }
 
                 }
-                return (myList, control_buffer_stack, violate);
+                return (myList, control_buffer_stack, violate, CustomVars);
 
             }
         }

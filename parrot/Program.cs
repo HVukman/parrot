@@ -5,7 +5,6 @@
 using System.Text.RegularExpressions;
 using ForthError;
 using Spectre.Console;
-using Constants;
 using Do_forth;
 using System.Numerics;
 using System.Diagnostics;
@@ -25,7 +24,7 @@ public class Parrot
         Interpret, // perform action
         Compile_Word,  // compile word 
         Compile_Func, // Compile FUunction
-        Compile_COMMENT, // Comment
+        COMMENT, // Comment
         IF_Mode,  // switches to if mode
         IF_THEN_Mode // performs if then check
     }
@@ -75,13 +74,13 @@ public class Parrot
         string if_string= IF_THEN_STRING.IF;
 
         var run = true;
-        string[] standardwords = Consts.standardwords;
-        string[] extrawords = Consts.extrawords;
-        string[] ext_stackops= Consts.ext_stackops;
-        string[] booleans = Consts.booleans;
-        string[] mult_add_wors = Consts.mult_add_commands;
-        string[] var = Consts.var;
-        string[ ] func = Consts.func;
+        string[] standardwords = Consts_Variables.standardwords;
+        string[] extrawords = Consts_Variables.extrawords;
+        string[] ext_stackops= Consts_Variables.ext_stackops;
+        string[] booleans = Consts_Variables.booleans;
+        string[] mult_add_wors = Consts_Variables.mult_add_commands;
+        string[] var = Consts_Variables.var;
+        string[ ] func = Consts_Variables.func;
         string increment = "inc";
 
         char[] delimiterChars = { ' ', ',', '.', ':', '\t' };
@@ -116,15 +115,27 @@ public class Parrot
 
         List<int> loop_control_stack = new List<int>();
         bool do_loop_flag=false;
+        bool while_flag=false;
 
-        //Console.BackgroundColor = ConsoleColor.Red;
+        //Console.BackgroundColor = ConsoleColor.DarkBlue;
         //Console.ForegroundColor = ConsoleColor.Black;
+
 
         var panel = new Panel("Hello There!");
         AnsiConsole.Write(
         new FigletText("This is Parrot")
         .LeftJustified()
         .Color(Color.Gold1));
+
+
+        // Custom Words Dictionary
+        Dictionary<string, string> CustomWords =
+            new Dictionary<string, string>();
+
+        // Custom Variables Dictionary
+        Dictionary<string, string> CustomVars =
+            new Dictionary<string, string>();
+
 
         // byte[] bytes = Encoding.ASCII.GetBytes("Hello There");
         //System.Diagnostics.Debug.WriteLine(Utils.HexDump(bytes));
@@ -179,14 +190,6 @@ public class Parrot
                 
             }
 
-            // Custom Words Dictionary
-            Dictionary<string, string> CustomWords =
-                new Dictionary<string, string>();
-
-            // Custom Variables Dictionary
-            Dictionary<string, string> CustomVars =
-                new Dictionary<string, string>();
-
             int input_length= words.Count();
             
             Console.WriteLine("input length: " + input_length.ToString());
@@ -231,7 +234,22 @@ public class Parrot
                         else 
 
                         {
-                        if (modes == OP_CODES.Compile_Word)
+
+                        // if word 0 and 1 == /
+                        // then comment mode
+                        if (word[0] == '/' && word[1]=='/' && modes!=OP_CODES.COMMENT)
+                        {
+                            modes = OP_CODES.COMMENT;
+                        }
+
+                        else if (modes==OP_CODES.COMMENT && word != "\n")
+                        {
+                            // Do nothing
+                            // Comment mode
+                        }
+
+
+                        else if (modes == OP_CODES.Compile_Word)
                         // Compile Word and add to dict 
                         {
                             if (stack.Length() < 2)
@@ -239,7 +257,6 @@ public class Parrot
                                 Console.WriteLine("Stack too small!");
                                 violate = true;
                             }
-
 
                             else
 
@@ -258,7 +275,7 @@ public class Parrot
                         {
                             // Exit program!
 
-                            if (word == "bye")
+                            if (userinput == "bye")
                             {
                                 Console.WriteLine(":( Bye!");
                                 run = false;
@@ -271,8 +288,16 @@ public class Parrot
                             {
                                 // standard do words
                                 //Console.WriteLine((int.TryParse(word, out int number3)));
-                                (stack, control_flow_stack, violate) = DoForth.doSth(stack, control_flow_stack, word.ToLower(), modes, do_loop_flag, loop_control_stack);
-
+                                if (while_flag == false)
+                                {
+                                    (stack, control_flow_stack, violate, CustomWords) = DoForth.doSth(stack, control_flow_stack, word.ToLower(), 
+                                        modes, do_loop_flag, loop_control_stack, CustomWords);
+                                }
+                                if (while_flag == true) 
+                                {
+                                    (stack, control_flow_stack, violate, CustomWords) = DoForth.doSth(control_buffer_stack, control_flow_stack, word.ToLower(), 
+                                        modes, do_loop_flag, loop_control_stack, CustomWords);
+                                }
                                 // PRINT STATEMENT
                                 // Console.WriteLine("register: " + register.ToString());
                             }
@@ -312,9 +337,9 @@ public class Parrot
 
                             else 
                             {
-                  //              Console.Write(word);
-                                (control_buffer_stack, control_flow_stack, violate) = DoForth.doSth(control_buffer_stack, control_flow_stack,
-                                word.ToLower(), OP_CODES.IF_Mode, do_loop_flag, loop_control_stack);
+                                //              Console.Write(word);
+                                (stack, control_flow_stack, violate, CustomWords) = DoForth.doSth(control_buffer_stack, control_flow_stack,
+                                    word.ToLower(), OP_CODES.IF_Mode, do_loop_flag, loop_control_stack, CustomWords);
                             }
                             
                             // DoForth.printstack(stack);
@@ -392,8 +417,8 @@ public class Parrot
 
                                             else if (word != increment && do_loop_flag == true && loop_control_stack.Length() > 1)
                                             {
-                                                (stack, control_flow_stack, violate) = DoForth.doSth(stack, control_flow_stack, word.ToLower(), OP_CODES.Interpret,
-                                                    do_loop_flag, loop_control_stack);
+                                            (stack, control_flow_stack, violate, CustomWords) = DoForth.doSth(stack, control_flow_stack, word.ToLower(), OP_CODES.Interpret,
+                                                    do_loop_flag, loop_control_stack, CustomWords);
                                             }
 
 
@@ -455,8 +480,8 @@ public class Parrot
                                             // PRINT STATEMENT
                                             // Console.WriteLine(word);
 
-                                            (stack, control_flow_stack, violate) = DoForth.doSth(stack, control_flow_stack,
-                                                word.ToLower(), OP_CODES.Interpret, do_loop_flag, loop_control_stack);
+                                            (stack, control_flow_stack, violate, CustomWords) = DoForth.doSth(stack, control_flow_stack,
+                                                word.ToLower(), OP_CODES.Interpret, do_loop_flag, loop_control_stack, CustomWords);
                                             
                                         }
                                     break;
@@ -465,7 +490,7 @@ public class Parrot
 
                         }
 
-                        else if (word == "do")
+                        else if (word == "do" && modes!=OP_CODES.COMMENT)
                         {
                             
                             try
@@ -531,7 +556,7 @@ public class Parrot
                             }
                         }
 
-                        else if (word == "loop")
+                        else if (word == "loop" && modes != OP_CODES.COMMENT)
 
                         // sees loop
                         {
@@ -578,15 +603,81 @@ public class Parrot
 
                                         }
 
-
-
                                 }
 
                             }
                         }
 
+                        else if (word=="begin-while")
+                        
+                        {
+                            Console.WriteLine("begin while");
 
-                        else if (word == ";")
+                        }
+
+                        else if (word=="while")
+                        {
+                            if (while_flag == false)
+                            {
+                                while_flag = true;
+                                control_buffer_stack = stack.ToList();
+                                // Console.WriteLine("while only in while loop!");
+                                // violate= true;
+                            }
+                            if (while_flag== true)
+                            {
+                                //Console.WriteLine("Only one while!");
+                                // violate=true;
+                                
+                            }
+                        }
+
+                        else if (word == "end-while")
+                        {
+                            while_flag = false;
+                            try
+                            {
+
+                                bool end_check = bool.Parse(control_buffer_stack.Last());
+                                if (end_check == true)
+                                {
+                                    
+                                }
+                                else if (end_check==false)
+                                {
+                                   
+                                    while (word != "begin-while")
+                                    // decrease register until do!
+
+                                    {
+
+                                        register--;
+                                        // Console.WriteLine("register: ", register.ToString());
+                                        // Console.WriteLine("word: ", word);
+                                        word = words[register];
+
+                                    }
+                                }
+                            }
+                            catch (ArgumentOutOfRangeException)
+                            {
+                                Console.WriteLine("there is nothing on the return stack!");
+                                violate = true;
+                            }
+                            catch (ArgumentNullException)
+                            {
+                                Console.WriteLine("Stack is too small!");
+                                violate=true;
+                            }
+                            catch (FormatException) 
+                            {
+                                Console.WriteLine("There must be a bool check after the while!");
+                                violate=true; 
+                            }
+
+                        }
+
+                        else if (word == ";" && modes != OP_CODES.COMMENT)
 
                         // Exits to Interpret mode in any case!
 
@@ -599,7 +690,10 @@ public class Parrot
                             do_loop_flag = false;
                         }
 
-
+                        else if (word=="\n" && modes == OP_CODES.COMMENT)
+                        {
+                            modes=OP_CODES.Interpret;
+                        }
 
                         else
                         {
@@ -633,14 +727,18 @@ public class Parrot
             //sw.Stop();
             //Console.WriteLine("Elapsed time: "+ sw.ElapsedMilliseconds);
 
-            control_flow_stack.Clear();
-            loop_control_stack.Clear();
-            do_loop_flag = false;
-            // Console.WriteLine("control stack clear");
-            DoForth.Printstack(stack);
+            if (run!=false) 
+            {
+                control_flow_stack.Clear();
+                loop_control_stack.Clear();
+                do_loop_flag = false;
+                // Console.WriteLine("control stack clear");
+                DoForth.Printstack(stack);
 
-            modes = OP_CODES.Interpret;
-            words.Clear();
+                modes = OP_CODES.Interpret;
+                words.Clear();
+            }
+            
            
         }
 
