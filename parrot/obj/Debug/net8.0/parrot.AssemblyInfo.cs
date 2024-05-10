@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("parrot")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1a520474a120637cf9f0b0937e73a47a4fe10288")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+106c907655d330332c88d3df0f683df056b16217")]
 [assembly: System.Reflection.AssemblyProductAttribute("parrot")]
 [assembly: System.Reflection.AssemblyTitleAttribute("parrot")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

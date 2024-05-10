@@ -1,9 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "jjiY3TG2Haar+hxapBy8nssdVVjRM8aoWOJvwTpbpSada1KG7B9m/f6LVfObaXmOt/Dr5AfKxS/x8TEdn1fYUQ==",
+  "dgSpecHash": "rp34ljHze00vr2aUYmDmpOx2qPDGEmvReFU+ZaI5F6mVfCt+1C5c0LRndYFpSfkmDiTRmeAY9c0tdLrPHSUAGQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\parrot.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\vukma\\.nuget\\packages\\fparsec\\1.1.1\\fparsec.1.1.1.nupkg.sha512",
+    "C:\\Users\\vukma\\.nuget\\packages\\fparsec.csharp\\12.2.0\\fparsec.csharp.12.2.0.nupkg.sha512",
+    "C:\\Users\\vukma\\.nuget\\packages\\fsharp.core\\6.0.1\\fsharp.core.6.0.1.nupkg.sha512",
     "C:\\Users\\vukma\\.nuget\\packages\\hexdump\\1.0.0\\hexdump.1.0.0.nupkg.sha512",
     "C:\\Users\\vukma\\.nuget\\packages\\languageext.core\\4.4.8\\languageext.core.4.4.8.nupkg.sha512",
     "C:\\Users\\vukma\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",

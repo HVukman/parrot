@@ -3,16 +3,19 @@
     // storing essential constants
     public static class Consts_Variables
     {
-        public static string[] extrawords = ["writedump", "loaddump"];
+        public static string[] extrawords = ["writedump", "loaddump","today"];
         public static string[] var = ["var"];
         public static string[] func = ["func"];
 
-        public static string[] standardwords = ["bye", "+", "add", "*", "mul", "-", "sub", "/", "div", "drop", "dup", "swap", "rot", "over", "nip", "clear", 
-            "echo", "rev", "curry", "dump", "=", "<", ">", "!=","inc","store", "fetch"];
+        public static List<string> standardwords = ["bye", "+", "add", "*", "mul", "-", "sub", "/", "div", "drop", "dup", "swap", "rot", "over", "nip", "clear",
+            "echo", "rev", "curry", "dump", "=", "<", ">", "!=","inc","store", "fetch" , "peek" ,"print"];   
+       
+        //public static string[] standardwords = ["bye", "+", "add", "*", "mul", "-", "sub", "/", "div", "drop", "dup", "swap", "rot", "over", "nip", "clear", 
+         //   "echo", "rev", "curry", "dump", "=", "<", ">", "!=","inc","store", "fetch"];
         public static string[] mult_add_commands = ["+", "-", "*", "/", "%"];
         public static string[] comparisons = ["=", "<", ">", "!="];
         public static string[] booleans = ["if", "else", "then"];
-        public static string[] standard_stackops = ["drop", "dup", "swap", "rot", "over", "nip", "clear", "rev", "fetch"];
+        public static string[] standard_stackops = ["drop", "dup", "swap", "rot", "over", "nip", "clear", "rev", "fetch", "peek" , "print"];
         public static string[] ext_stackops = ["sum", "prod"];
         public static string[] do_loop = ["do", "loop"];
         public static string[] definitions = ["store", "func"];

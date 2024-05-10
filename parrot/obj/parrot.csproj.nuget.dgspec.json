@@ -51,6 +51,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "FParsec.CSharp": {
+              "target": "Package",
+              "version": "[12.2.0, )"
+            },
             "HexDump": {
               "target": "Package",
               "version": "[1.0.0, )"

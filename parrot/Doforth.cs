@@ -14,7 +14,11 @@ using System.Numerics;
 using Microsoft.VisualBasic;
 using LanguageExt.ClassInstances.Pred;
 using System.Collections;
-
+using Spectre.Console.Cli;
+//using static LanguageExt.Compositions<A>;
+using Parrot;
+using LanguageExt;
+using LanguageExt.ClassInstances;
 
 
 namespace Do_forth {
@@ -106,6 +110,12 @@ namespace Do_forth {
             }
         }
 
+        public static void Today(List<string> MyList)
+        {
+            Console.WriteLine(DateTime.Today.ToString("dd/MM/yyyy"));
+            MyList.Add(DateTime.Today.ToString("dd/MM/yyyy"));
+        }
+        
         public static void Rev(List<string> myList)
         // x -- 
         {
@@ -182,18 +192,43 @@ namespace Do_forth {
             myList.Add(y);
         }
 
-        public static void Sum(List<string> myList)
+        public static void Peek(List<string> myList)
+        // x -- x
+        {
+            var y = myList.Last();
+            Console.WriteLine("the first element is: " + y.ToString());
+        }
+
+        public static void Print(List<string> myList)
+        // x -- x
+        {
+            var y = myList.Last();
+            myList.RemoveAt(myList.Length() - 1);
+            Console.WriteLine("the first element was: " + y.ToString());
+        }
+
+        public static bool Sum(List<string> myList, bool violate)
         // ... -- y
         {
-            List<BigInteger> bigints = myList
+            try {
+                List<BigInteger> bigints = myList
                     .Select(s => { BigInteger i; return BigInteger.TryParse(s, out i) ? i : (BigInteger?)null; })
                     .Where(i => i.HasValue)
                     .Select(i => i.Value)
                     .ToList();
 
-            var y = bigints.Aggregate(BigInteger.Add);
-            myList.Clear() ;
-            myList.Add(y.ToString());
+                var y = bigints.Aggregate(BigInteger.Add);
+                myList.Clear();
+                myList.Add(y.ToString());
+                violate = false;
+            }
+            catch (InvalidOperationException) 
+            {
+                Console.WriteLine("Only ints in sum!");
+                violate= true;
+            }
+        return violate;
+            
         }
 
         public static bool Fetch(List<string> myList, Dictionary<string, string> CustomVars)
@@ -219,6 +254,7 @@ namespace Do_forth {
         public static bool Define(List<string> myList, Dictionary<string,string> CustomVars)
         {
             bool violate;
+
             try {
                 string name = myList.Last();
                 myList.RemoveAt(myList.Count - 1);
@@ -237,62 +273,109 @@ namespace Do_forth {
 
         }
 
-        public static bool Bool_checks(string command, List<string> myList, List<bool> flow_check, Parrot.OP_CODES mode , bool violate)
+        public static bool Bool_checks(string command, List<string> myList, List<bool> flow_check, Parrot.Parrot.OP_CODES mode , bool violate)
         {
             // command is given as argument
-            bool check;
+            bool check = false;
             // x y -- y
 
             var y = myList.Last();
             var x1 = myList[myList.Count - 2];
 
-
-            try
+            
+            bool compare = (y.GetType() == x1.GetType());
+           
+            if ( compare==true )
             {
-                switch (command)
-                {
-                    case "=":
-                        check = (Int32.Parse(y) == Int32.Parse(x1));
-                        violate = false;
-                        break;
-                    case "!=":
-                        check = (Int32.Parse(y) != Int32.Parse(x1));
-                        violate = false;
-                        break;
-                    case ">":
-                        check = (Int32.Parse(y) < Int32.Parse(x1));
-                        violate = false;
-                        break;
-                    case "<":
-                        check = (Int32.Parse(y) > Int32.Parse(x1));
-                        violate = false;
-                        break;
-                    default:
-                        violate = true;
-                        throw new Exception("What?");
+                Type type_of_vars = y.GetType();
 
+                if(type_of_vars== typeof(BigInteger) )
+                {
+
+                        try
+                        {
+                            switch (command)
+                            {
+                                case "=":
+                                    check = (Int32.Parse(y) == Int32.Parse(x1));
+                                    violate = false;
+                                    break;
+                                case "!=":
+                                    check = (Int32.Parse(y) != Int32.Parse(x1));
+                                    violate = false;
+                                    break;
+                                case ">":
+                                    check = (Int32.Parse(y) < Int32.Parse(x1));
+                                    violate = false;
+                                    break;
+                                case "<":
+                                    check = (Int32.Parse(y) > Int32.Parse(x1));
+                                    violate = false;
+                                    break;
+                                default:
+                                    violate = true;
+                                    break;
+                            }
+
+
+                        }
+                        catch (FormatException)
+                        {
+                            return false;
+                            throw new Exception("what");
+                        }
                 }
 
+                else if (type_of_vars==typeof(string) ) 
+                
+                {
+                    try
+                    {
+                        switch (command)
+                        {
+                            case "=":
+                                check = string.Equals(y,x1);
+                                violate = false;
+                                break;
+                            case "!=":
+                                check = (string.Equals(y, x1)==false);
+                                violate = false;
+                                break;
+                            case ">":
+                                check = (y.Length() < x1.Length());
+                                violate = false;
+                                break;
+                            case "<":
+                                check = (y.Length() > x1.Length());
+                                violate = false;
+                                break;
+                            default:
+                                violate = true;
+                                break;
+                        }
 
-            }
-            catch (FormatException)
-            {
-                return false;
-                throw new DoForthErrorException("Not correctly compared");
+                    }
+                    catch (FormatException)
+                    {
+                        return false;
+                        throw new Exception("what");
+                    }
+
+                }
                 
-                
             }
+
 
             switch (mode)
             {
-                case Parrot.OP_CODES.Interpret:
+                case  Parrot.Parrot.OP_CODES.Interpret:
                     myList.RemoveAt(myList.Count - 1);
                     myList.RemoveAt(myList.Count - 1);
                     myList.Add(check.ToString());
                     violate = false;
                     break;
 
-                case Parrot.OP_CODES.IF_Mode:
+                case Parrot.Parrot.OP_CODES.IF_Mode:
                     flow_check.Add(check);
                     violate = false;
                     break;
@@ -303,63 +386,92 @@ namespace Do_forth {
         }
 
 
-        public static (BigInteger,bool) Operation(List<string> myList, string command)
+        public static (object,bool) Operation(List<string> myList, string command)
         {
             var success_add = false;
-            BigInteger result = 0;
+            object result = 0;
 
             try
             {
-                var num1 = myList[myList.Count - 1];
-                var num2 = myList[myList.Count - 2];
+                var var1 = myList[myList.Count - 1];
+                var var2 = myList[myList.Count - 2];
 
-                switch (command)
+                BigInteger j;
+                BigInteger l;
+                bool i= BigInteger.TryParse(var1, out j);
+                bool k= BigInteger.TryParse(var2, out l);
+
+                //Type type_of_vars = var1.GetType();
+
+                if ((i && k) ==true)        
                 {
-                    case "+":
+                    switch (command)
+                    {
+                        case "+":
 
-                        result = BigInteger.Parse(num1) + BigInteger.Parse(num2);
-                        success_add = true;
-                        break;
-
-                    case "-":
-
-                        result = BigInteger.Parse(num1) - BigInteger.Parse(num2);
-                        success_add = true;
-                        break;
-
-                    case "*":
-
-                        result = BigInteger.Parse(num1) * BigInteger.Parse(num2);
-                        success_add = true;
-                        break;
-
-                    case "/":
-
-                        if (Int32.Parse(num2) != 0)
-                        {
-                            result = BigInteger.Parse(num1) / BigInteger.Parse(num2);
+                            result = BigInteger.Parse(var1) + BigInteger.Parse(var2);
                             success_add = true;
-                        }
-                        else { success_add = false; }
+                            break;
 
-                        break;
+                        case "-":
 
-                    case "%":
-
-                        if (Int32.Parse(num2) != 0)
-                        {
-                            result = BigInteger.Parse(num1) % BigInteger.Parse(num2);
+                            result = BigInteger.Parse(var1) - BigInteger.Parse(var2);
                             success_add = true;
-                        }
-                        else { success_add = false; }
+                            break;
 
-                        break;
-                    default:
-                        success_add = false;
-                        result= 0;
-                        break;
+                        case "*":
+
+                            result = BigInteger.Parse(var1) * BigInteger.Parse(var2);
+                            success_add = true;
+                            break;
+
+                        case "/":
+
+                            if (Int32.Parse(var2) != 0)
+                            {
+                                result = BigInteger.Parse(var1) / BigInteger.Parse(var2);
+                                success_add = true;
+                            }
+                            else { success_add = false; }
+
+                            break;
+
+                        case "%":
+
+                            if (Int32.Parse(var2) != 0)
+                            {
+                                result = BigInteger.Parse(var1) % BigInteger.Parse(var2);
+                                success_add = true;
+                            }
+                            else { success_add = false; }
+                            break;
+                        default:
+                            success_add = false;
+                            result = 0;
+                            break;
+                    }
                 }
 
+                else
+                {
+                    switch (command)
+                    {
+                        case "+":
+
+                            result = var1 + var2;
+                            success_add = true;
+                            break;
+
+                        
+                        default:
+                            Console.WriteLine("Only + for string");
+                            success_add = false;
+                            result = 0;
+                            break;
+                    }
+                }
+
+   
             }
             catch (FormatException)
             {
@@ -374,7 +486,7 @@ namespace Do_forth {
 
 
             public static (List<string>, List<bool>, bool, Dictionary<string,string>) doSth(List<string> myList, List<bool> control_buffer_stack, 
-                string command, Parrot.OP_CODES mode, bool loop_flag, List<int> loop_control_stack, Dictionary<string,string> CustomVars)
+                string command, Parrot.Parrot.OP_CODES mode, bool loop_flag, List<int> loop_control_stack, Dictionary<string,string> CustomVars)
 
             {
                 int number;
@@ -389,29 +501,13 @@ namespace Do_forth {
                 bool violate= false;
 
                 dynamic[] return_op = [0, false];
-                BigInteger result = 0;
+                object result = 0;
                 bool success_add = false;
 
-                string pattern = @"^""[\w\s!:\(\)]+""$";
-
-            // Add integer to stack
-            if (int.TryParse(command, out number) == true)
-            {
-                myList.Add(command);
-
-            }
-
-            // Add string to stack
-
-            else if (Regex.IsMatch(command, pattern))
-            {
-                myList.Add(command);
-
-            }
-
+                
             // Perform mult add commands on stack
 
-            else if (mult_add_commands.Contains(command))
+            if (mult_add_commands.Contains(command))
             {
 
                 if (myList.Count > 1)
@@ -504,7 +600,7 @@ namespace Do_forth {
                             else
                             {
                                 violate = true;
-                                Console.WriteLine("Stack underflow for swap! must be bigger than 1!");
+                                Console.WriteLine("Stack underflow for nip! must be bigger than 1!");
 
                             }
                             break;
@@ -520,7 +616,7 @@ namespace Do_forth {
                             {
 
                                 violate = true;
-                                Console.WriteLine("Stack underflow for swap! must be bigger than 1!");
+                                Console.WriteLine("Stack underflow for over! must be bigger than 1!");
 
                             }
                             break;
@@ -536,6 +632,16 @@ namespace Do_forth {
                         case "dump":
                             Dump(myList);
                             break;
+                        case "peek":
+                            Peek(myList);
+                            break;
+                        case "print":
+                            Print(myList);
+                            break;
+                        default:
+                            Console.WriteLine("sorry not there yet!");
+                            break;
+                            
                     }
                 }
                 else
@@ -580,7 +686,7 @@ namespace Do_forth {
                 {
 
                     case "sum":
-                        Sum(myList);
+                        violate= Sum(myList, violate);
                         break;
                     default:
                         break;
@@ -592,15 +698,19 @@ namespace Do_forth {
 
             else if (extrawords.Contains(command))
             {
-
+                Console.WriteLine("extra");
                 switch (command)
                 {
                     case "writedump":
                         Writedump(myList);
                         break;
                     case "loaddump":
-                        Loaddump(myList);
+                        //Loaddump(myList);
                         break;
+                    case "today":
+                        Today(myList);
+                        break;
+                    default : break;
                 }
 
             }
@@ -621,11 +731,16 @@ namespace Do_forth {
                 Dump(myList);
             }
 
+            else if (command == "today")
+            {
+                Today(myList);
+            }
+
             else if (command == "inc" && loop_flag == true)
 
             {
                 int inc = loop_control_stack[loop_control_stack.Length() - 2];
-                Console.WriteLine(inc);
+               // Console.WriteLine(inc);
                 myList.Add(inc.ToString());
             }
 
@@ -649,7 +764,7 @@ namespace Do_forth {
                     // else puts boolean on stack
                     switch (mode)
                     {
-                        case Parrot.OP_CODES.Interpret:
+                        case Parrot.Parrot.OP_CODES.Interpret:
                             Pop(myList);
                             Pop(myList);
 
@@ -658,7 +773,7 @@ namespace Do_forth {
 
                             myList.Add(result.ToString());
                             break;
-                        case Parrot.OP_CODES.IF_Mode:
+                        case Parrot.Parrot.OP_CODES.IF_Mode:
                             myList.Add(result.ToString());
                             break;
 
@@ -668,6 +783,37 @@ namespace Do_forth {
                 return (myList, control_buffer_stack, violate, CustomVars);
 
             }
+
+                public  (List<string> ,List<bool>, bool, Dictionary<string,string>)  Main(List<string> myList, List<bool> control_buffer_stack, string command, Parrot.Parrot.OP_CODES mode, 
+                    bool loop_flag, List<int> loop_control_stack, Dictionary<string, string> CustomVars, bool violate)
+               
+                {
+                            string pattern = @"^""[\w\s!:\(\)]+""$";
+                            int number;
+                            // Add integer to stack
+                            if (int.TryParse(command, out number) == true)
+                            {
+                                myList.Add(command);
+
+                            }
+
+                            // Add string to stack
+
+                            else if (Regex.IsMatch(command, pattern))
+                            {
+                                myList.Add(command);
+
+                            }
+
+
+                            else
+                            {
+                                (myList, control_buffer_stack, violate, CustomVars) = doSth(myList, control_buffer_stack, command, mode, loop_flag, loop_control_stack, CustomVars);
+                            }
+
+                            return (myList, control_buffer_stack, violate, CustomVars);
+
+                }
         }
 
 

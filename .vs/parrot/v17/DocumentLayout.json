@@ -3,32 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\vukma\\OneDrive\\parrot\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\doforth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\doforth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\parsestack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\parsestack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\consts_variables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\consts_variables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\doforth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\doforth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\fortherrorexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\fortherrorexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\consts_variables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\consts_variables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\euler2.parrot||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\euler2.parrot||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\fortherrorexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\fortherrorexception.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\hexdump.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\hexdump.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\euler2.parrot||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\euler2.parrot||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\euler1.parrot||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\euler1.parrot||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\example.parrot||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\example.parrot||{8B382828-6202-11D1-8870-0000F87579D2}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,7 +46,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,7 +54,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
+              "Title": "ParseStack.cs",
+              "DocumentMoniker": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\ParseStack.cs",
+              "RelativeDocumentMoniker": "parrot\\ParseStack.cs",
+              "ToolTip": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\ParseStack.cs",
+              "RelativeToolTip": "parrot\\ParseStack.cs",
+              "ViewState": "AQIAANMAAAAAAAAAAAAiwGAAAAA2AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-10T14:31:20.629Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "example.parrot",
+              "DocumentMoniker": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\example.parrot",
+              "RelativeDocumentMoniker": "parrot\\example.parrot",
+              "ToolTip": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\example.parrot",
+              "RelativeToolTip": "parrot\\example.parrot",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-05-09T15:58:55.367Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "euler1.parrot",
               "DocumentMoniker": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\euler1.parrot",
               "RelativeDocumentMoniker": "parrot\\euler1.parrot",
@@ -58,29 +91,27 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "euler2.parrot",
               "DocumentMoniker": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\euler2.parrot",
               "RelativeDocumentMoniker": "parrot\\euler2.parrot",
               "ToolTip": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\euler2.parrot",
               "RelativeToolTip": "parrot\\euler2.parrot",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAtAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAA4AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-05-07T18:42:13.793Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-07T18:42:13.793Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Consts_Variables.cs",
               "DocumentMoniker": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\Consts_Variables.cs",
               "RelativeDocumentMoniker": "parrot\\Consts_Variables.cs",
               "ToolTip": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\Consts_Variables.cs",
               "RelativeToolTip": "parrot\\Consts_Variables.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAB3AAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAACJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-23T20:09:45.187Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-23T20:09:45.187Z"
             },
             {
               "$type": "Document",
@@ -90,14 +121,13 @@
               "RelativeDocumentMoniker": "parrot\\Hexdump.cs",
               "ToolTip": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\Hexdump.cs",
               "RelativeToolTip": "parrot\\Hexdump.cs",
-              "ViewState": "AQIAAC4AAAAAAAAAAAAgwBgAAAALAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAALAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-23T20:09:45.249Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-23T20:09:45.249Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "ForthErrorException.cs",
               "DocumentMoniker": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\ForthErrorException.cs",
               "RelativeDocumentMoniker": "parrot\\ForthErrorException.cs",
@@ -105,18 +135,17 @@
               "RelativeToolTip": "parrot\\ForthErrorException.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-23T20:09:45.252Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-23T20:09:45.252Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Doforth.cs",
               "DocumentMoniker": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\Doforth.cs",
               "RelativeDocumentMoniker": "parrot\\Doforth.cs",
               "ToolTip": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\Doforth.cs",
               "RelativeToolTip": "parrot\\Doforth.cs",
-              "ViewState": "AQIAAA8CAAAAAAAAAADgvyMCAAAAAAAA",
+              "ViewState": "AQIAAOsCAAAAAAAAAAAAAAYAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-23T20:09:45.255Z",
               "EditorCaption": ""
@@ -129,10 +158,14 @@
               "RelativeDocumentMoniker": "parrot\\Program.cs",
               "ToolTip": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\Program.cs",
               "RelativeToolTip": "parrot\\Program.cs",
-              "ViewState": "AQIAADkAAAAAAAAAAAAuwAMBAAAAAAAA",
+              "ViewState": "AQIAAFQAAAAAAAAAAAAAAEUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-23T20:09:45.256Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             }
           ]
         }
