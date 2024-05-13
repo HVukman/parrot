@@ -71,7 +71,7 @@ public class Parrot
         var run = true;
  
 
-        char[] delimiterChars = { ' ', ',', '.', ':', '\t' };
+        char[] delimiterChars = {' ', ',', '.', ':', '\t' };
         List<string> oldstack = [];
         //string userinput;
 
@@ -106,8 +106,8 @@ public class Parrot
 
 
         // Custom Words Dictionary
-        Dictionary<string, string> CustomWords =
-            new Dictionary<string, string>();
+        Dictionary<string, List<string>> CustomWords =
+            new Dictionary<string, List<string>>();
 
         // Custom Variables Dictionary
         Dictionary<string, string> CustomVars =

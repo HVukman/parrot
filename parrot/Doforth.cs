@@ -252,7 +252,7 @@ namespace Do_forth {
             return violate;
         }
 
-        public static bool Define(List<string> myList, Dictionary<string,string> CustomVars)
+        public static bool Store(List<string> myList, Dictionary<string,string> CustomVars)
         {
             bool violate;
 
@@ -273,6 +273,9 @@ namespace Do_forth {
             return violate;
 
         }
+
+
+
 
         public static (bigint,bool) Allot(List<string> myList, bigint allot)
         {
@@ -505,8 +508,9 @@ namespace Do_forth {
         }
 
 
-            public static (List<string>, List<bool>, bool, Dictionary<string,string>, bigint) doSth(List<string> myList, List<bool> control_buffer_stack, 
-                string command, Parrot.Parrot.OP_CODES mode, bool loop_flag, List<int> loop_control_stack, Dictionary<string,string> CustomVars, bigint allot)
+            public static (List<string>, List<bool>, bool, Dictionary<string,string>, Dictionary<string, List<string>> ,bigint, Parrot.Parrot.OP_CODES) doSth(List<string> myList, List<bool> control_buffer_stack, 
+                string command, Parrot.Parrot.OP_CODES mode, bool loop_flag, List<int> loop_control_stack, Dictionary<string,string> CustomVars,
+                 Dictionary<string, List<string>> CustomWord, bigint allot)
 
             {
                 int number;
@@ -544,14 +548,34 @@ namespace Do_forth {
 
             // define words and vars
 
-            // Perform mult add commands on stack
+            
 
             else if (definitions.Contains(command))
             {
 
-                if (myList.Count > 1)
-                {
-                    violate = Define(myList, CustomVars);
+                if (myList.Count > 0)
+                {   
+                    switch (command)
+                    {
+                        /// store variable
+                        case "store":
+                            if (myList.Count > 1)
+                            {
+                                violate = Store(myList, CustomVars);
+                            }
+                            else 
+                            {
+                                Console.WriteLine("stack is too small!");
+                                violate = true;
+                            }
+                                
+                            break;
+                        // define word in array
+                        default:
+                           
+                            break;
+                    }
+                    
                 }
 
                 else
@@ -561,6 +585,7 @@ namespace Do_forth {
                 }
             }
 
+            // Perform mult add commands on stack
             // Perform standard words on stack
 
 
@@ -573,15 +598,17 @@ namespace Do_forth {
 
                     {
                         case "drop":
+                            // drop last element
                             Pop(myList);
                             break;
 
                         case "fetch":
-                            
+                            // fetch stored variable
                             violate=Fetch(myList,CustomVars);
                             break;
 
                         case "swap":
+                            // swap top stack
                             if (myList.Count > 1)
                             {
                                 Swap(myList);
@@ -595,10 +622,14 @@ namespace Do_forth {
                             break;
 
                         case "dup":
+                            // double element on top
+
                             Dup(myList);
                             break;
 
                         case "rot":
+                            // rotate first three elements
+
                             if (myList.Count > 2)
                             {
                                 Rot(myList);
@@ -612,7 +643,7 @@ namespace Do_forth {
                             break;
 
                         case "nip":
-
+                            // deletes second to last element
                             if (myList.Count > 1)
                             {
                                 Nip(myList);
@@ -627,7 +658,7 @@ namespace Do_forth {
 
 
                         case "over":
-
+                            // doubles second to last element
                             if (myList.Count > 1)
                             {
                                 Over(myList);
@@ -643,24 +674,35 @@ namespace Do_forth {
 
 
                         case "clear":
+                            // clears stack
                             Clear(myList);
                             break;
 
                         case "rev":
+                            // reverses stack
                             Rev(myList);
                             break;
+
                         case "dump":
+                            // hexdump
                             Dump(myList);
                             break;
+
                         case "peek":
+                            // nondestructive peek
                             Peek(myList);
                             break;
+
                         case "print":
+                            // destructive print
                             Print(myList);
                             break;
+
                         case "allot":
+                            // future: allot vector
                             (allot, violate)=Allot(myList,allot); 
                             break;
+
                         default:
                             Console.WriteLine("sorry not there yet!");
                             break;
@@ -803,12 +845,13 @@ namespace Do_forth {
                     }
 
                 }
-                return (myList, control_buffer_stack, violate, CustomVars, allot);
+                return (myList, control_buffer_stack, violate, CustomVars, CustomWord, allot, mode);
 
             }
 
-                public  (List<string> ,List<bool>, bool, Dictionary<string,string>, bigint)  Main(List<string> myList, List<bool> control_buffer_stack, string command, Parrot.Parrot.OP_CODES mode, 
-                    bool loop_flag, List<int> loop_control_stack, Dictionary<string, string> CustomVars, bool violate, bigint allot)
+                public  (List<string> ,List<bool>, bool, Dictionary<string,string>, Dictionary<string, List<string>>, bigint, Parrot.Parrot.OP_CODES)  Main(List<string> myList, List<bool> control_buffer_stack, string command, Parrot.Parrot.OP_CODES mode, 
+                    bool loop_flag, List<int> loop_control_stack, 
+                    Dictionary<string, string> CustomVars, Dictionary<string, List<string>> CustomWord, bool violate, bigint allot)
                
                 {
                             string pattern = @"^""[\w\s!:\(\)]+""$";
@@ -832,10 +875,10 @@ namespace Do_forth {
 
                             else
                             {
-                                (myList, control_buffer_stack, violate, CustomVars, allot) = doSth(myList, control_buffer_stack, command, mode, loop_flag, loop_control_stack, CustomVars, allot);
+                                (myList, control_buffer_stack, violate, CustomVars, CustomWord, allot, mode) = doSth(myList, control_buffer_stack, command, mode, loop_flag, loop_control_stack, CustomVars, CustomWord, allot);
                             }
 
-                            return (myList, control_buffer_stack, violate, CustomVars, allot);
+                            return (myList, control_buffer_stack, violate, CustomVars, CustomWord, allot, mode);
 
                 }
         }
