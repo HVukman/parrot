@@ -104,6 +104,32 @@
           }
         }
       },
+      "FsLexYacc/11.3.0": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "4.6.2",
+          "FsLexYacc.Runtime": "11.3.0"
+        },
+        "build": {
+          "build/FsLexYacc.targets": {}
+        }
+      },
+      "FsLexYacc.Runtime/11.3.0": {
+        "type": "package",
+        "dependencies": {
+          "FSharp.Core": "4.6.2"
+        },
+        "compile": {
+          "lib/netstandard2.0/FsLexYacc.Runtime.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/FsLexYacc.Runtime.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "HexDump/1.0.0": {
         "type": "package",
         "compile": {
@@ -692,6 +718,110 @@
         "lib/netstandard2.1/tr/FSharp.Core.resources.dll",
         "lib/netstandard2.1/zh-Hans/FSharp.Core.resources.dll",
         "lib/netstandard2.1/zh-Hant/FSharp.Core.resources.dll"
+      ]
+    },
+    "FsLexYacc/11.3.0": {
+      "sha512": "v0Q3/c0tizN8vRZ72Tdo+OKU767Yjul0wRJgG1/W15H4tK/9qHne/mylw/gTEIC8FV2zgiDlAudhQpdZXYG3IA==",
+      "type": "package",
+      "path": "fslexyacc/11.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/FsLexYacc.targets",
+        "build/fslex/net6.0/FSharp.Core.dll",
+        "build/fslex/net6.0/FsLex.Core.dll",
+        "build/fslex/net6.0/FsLex.Core.xml",
+        "build/fslex/net6.0/FsLexYacc.Runtime.dll",
+        "build/fslex/net6.0/FsLexYacc.Runtime.xml",
+        "build/fslex/net6.0/cs/FSharp.Core.resources.dll",
+        "build/fslex/net6.0/de/FSharp.Core.resources.dll",
+        "build/fslex/net6.0/en/FSharp.Core.resources.dll",
+        "build/fslex/net6.0/es/FSharp.Core.resources.dll",
+        "build/fslex/net6.0/fr/FSharp.Core.resources.dll",
+        "build/fslex/net6.0/fslex",
+        "build/fslex/net6.0/fslex.deps.json",
+        "build/fslex/net6.0/fslex.dll",
+        "build/fslex/net6.0/fslex.dll.config",
+        "build/fslex/net6.0/fslex.runtimeconfig.json",
+        "build/fslex/net6.0/fslex.xml",
+        "build/fslex/net6.0/it/FSharp.Core.resources.dll",
+        "build/fslex/net6.0/ja/FSharp.Core.resources.dll",
+        "build/fslex/net6.0/ko/FSharp.Core.resources.dll",
+        "build/fslex/net6.0/pl/FSharp.Core.resources.dll",
+        "build/fslex/net6.0/pt-BR/FSharp.Core.resources.dll",
+        "build/fslex/net6.0/ru/FSharp.Core.resources.dll",
+        "build/fslex/net6.0/tr/FSharp.Core.resources.dll",
+        "build/fslex/net6.0/zh-Hans/FSharp.Core.resources.dll",
+        "build/fslex/net6.0/zh-Hant/FSharp.Core.resources.dll",
+        "build/fsyacc/net6.0/FSharp.Core.dll",
+        "build/fsyacc/net6.0/FsLexYacc.Runtime.dll",
+        "build/fsyacc/net6.0/FsLexYacc.Runtime.xml",
+        "build/fsyacc/net6.0/FsYacc.Core.dll",
+        "build/fsyacc/net6.0/FsYacc.Core.xml",
+        "build/fsyacc/net6.0/cs/FSharp.Core.resources.dll",
+        "build/fsyacc/net6.0/de/FSharp.Core.resources.dll",
+        "build/fsyacc/net6.0/en/FSharp.Core.resources.dll",
+        "build/fsyacc/net6.0/es/FSharp.Core.resources.dll",
+        "build/fsyacc/net6.0/fr/FSharp.Core.resources.dll",
+        "build/fsyacc/net6.0/fsyacc",
+        "build/fsyacc/net6.0/fsyacc.deps.json",
+        "build/fsyacc/net6.0/fsyacc.dll",
+        "build/fsyacc/net6.0/fsyacc.runtimeconfig.json",
+        "build/fsyacc/net6.0/fsyacc.xml",
+        "build/fsyacc/net6.0/it/FSharp.Core.resources.dll",
+        "build/fsyacc/net6.0/ja/FSharp.Core.resources.dll",
+        "build/fsyacc/net6.0/ko/FSharp.Core.resources.dll",
+        "build/fsyacc/net6.0/pl/FSharp.Core.resources.dll",
+        "build/fsyacc/net6.0/pt-BR/FSharp.Core.resources.dll",
+        "build/fsyacc/net6.0/ru/FSharp.Core.resources.dll",
+        "build/fsyacc/net6.0/tr/FSharp.Core.resources.dll",
+        "build/fsyacc/net6.0/zh-Hans/FSharp.Core.resources.dll",
+        "build/fsyacc/net6.0/zh-Hant/FSharp.Core.resources.dll",
+        "fslexyacc.11.3.0.nupkg.sha512",
+        "fslexyacc.nuspec",
+        "src/FsLexYacc.targets",
+        "src/fslex/Arg.fs",
+        "src/fslex/Arg.fsi",
+        "src/fslex/Lexing.fs",
+        "src/fslex/Lexing.fsi",
+        "src/fslex/Parsing.fs",
+        "src/fslex/Parsing.fsi",
+        "src/fslex/fslex.fs",
+        "src/fslex/fslex.fsx",
+        "src/fslex/fslexast.fs",
+        "src/fslex/fslexlex.fs",
+        "src/fslex/fslexpars.fs",
+        "src/fsyacc/Arg.fs",
+        "src/fsyacc/Arg.fsi",
+        "src/fsyacc/Lexing.fs",
+        "src/fsyacc/Lexing.fsi",
+        "src/fsyacc/Parsing.fs",
+        "src/fsyacc/Parsing.fsi",
+        "src/fsyacc/fsyacc.fs",
+        "src/fsyacc/fsyacc.fsx",
+        "src/fsyacc/fsyaccast.fs",
+        "src/fsyacc/fsyacclex.fs",
+        "src/fsyacc/fsyaccpars.fs"
+      ]
+    },
+    "FsLexYacc.Runtime/11.3.0": {
+      "sha512": "36b+4G+85WXU3kmbtq9hFSMGCLkn1nLzJoPgNaLUusnjXrC5ndAyS+hl13H6frpLCS3DB1wAmx/1SGYDe0avMw==",
+      "type": "package",
+      "path": "fslexyacc.runtime/11.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fable/AssemblyInfo.fs",
+        "fable/FsLexYacc.Runtime.fsproj",
+        "fable/Lexing.fs",
+        "fable/Lexing.fsi",
+        "fable/Parsing.fs",
+        "fable/Parsing.fsi",
+        "fslexyacc.runtime.11.3.0.nupkg.sha512",
+        "fslexyacc.runtime.nuspec",
+        "lib/netstandard2.0/FsLexYacc.Runtime.dll",
+        "lib/netstandard2.0/FsLexYacc.Runtime.xml",
+        "logo.png"
       ]
     },
     "HexDump/1.0.0": {
@@ -2512,6 +2642,7 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "FParsec.CSharp >= 12.2.0",
+      "FsLexYacc >= 11.3.0",
       "HexDump >= 1.0.0",
       "LanguageExt.Core >= 4.4.8",
       "Spectre.Console >= 0.49.0",
@@ -2574,6 +2705,10 @@
           "FParsec.CSharp": {
             "target": "Package",
             "version": "[12.2.0, )"
+          },
+          "FsLexYacc": {
+            "target": "Package",
+            "version": "[11.3.0, )"
           },
           "HexDump": {
             "target": "Package",

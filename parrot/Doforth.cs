@@ -19,6 +19,7 @@ using Spectre.Console.Cli;
 using Parrot;
 using LanguageExt;
 using LanguageExt.ClassInstances;
+using System.Data;
 
 
 namespace Do_forth {
@@ -28,7 +29,7 @@ namespace Do_forth {
 
         public static void Printstack(List<string> myList)
         {
-            var rule = new Rule("[gold1]Stack[/]");
+            var rule = new Spectre.Console.Rule("[gold1]Stack[/]");
             rule.Justification = Justify.Left;
             AnsiConsole.Write(rule);
 
@@ -273,6 +274,25 @@ namespace Do_forth {
 
         }
 
+        public static (bigint,bool) Allot(List<string> myList, bigint allot)
+        {
+            bool violate=false;
+            try
+            {
+                BigInteger size = BigInteger.Parse(myList.Last());
+                allot = size;
+                Console.WriteLine($"{allot.ToString()} spaces reserved for word!" );
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("an int must be allocated!");
+                allot = 0;
+                violate = true;
+            }
+
+            return (allot, violate);
+        }
+
         public static bool Bool_checks(string command, List<string> myList, List<bool> flow_check, Parrot.Parrot.OP_CODES mode , bool violate)
         {
             // command is given as argument
@@ -485,8 +505,8 @@ namespace Do_forth {
         }
 
 
-            public static (List<string>, List<bool>, bool, Dictionary<string,string>) doSth(List<string> myList, List<bool> control_buffer_stack, 
-                string command, Parrot.Parrot.OP_CODES mode, bool loop_flag, List<int> loop_control_stack, Dictionary<string,string> CustomVars)
+            public static (List<string>, List<bool>, bool, Dictionary<string,string>, bigint) doSth(List<string> myList, List<bool> control_buffer_stack, 
+                string command, Parrot.Parrot.OP_CODES mode, bool loop_flag, List<int> loop_control_stack, Dictionary<string,string> CustomVars, bigint allot)
 
             {
                 int number;
@@ -638,6 +658,9 @@ namespace Do_forth {
                         case "print":
                             Print(myList);
                             break;
+                        case "allot":
+                            (allot, violate)=Allot(myList,allot); 
+                            break;
                         default:
                             Console.WriteLine("sorry not there yet!");
                             break;
@@ -780,15 +803,16 @@ namespace Do_forth {
                     }
 
                 }
-                return (myList, control_buffer_stack, violate, CustomVars);
+                return (myList, control_buffer_stack, violate, CustomVars, allot);
 
             }
 
-                public  (List<string> ,List<bool>, bool, Dictionary<string,string>)  Main(List<string> myList, List<bool> control_buffer_stack, string command, Parrot.Parrot.OP_CODES mode, 
-                    bool loop_flag, List<int> loop_control_stack, Dictionary<string, string> CustomVars, bool violate)
+                public  (List<string> ,List<bool>, bool, Dictionary<string,string>, bigint)  Main(List<string> myList, List<bool> control_buffer_stack, string command, Parrot.Parrot.OP_CODES mode, 
+                    bool loop_flag, List<int> loop_control_stack, Dictionary<string, string> CustomVars, bool violate, bigint allot)
                
                 {
                             string pattern = @"^""[\w\s!:\(\)]+""$";
+                            
                             int number;
                             // Add integer to stack
                             if (int.TryParse(command, out number) == true)
@@ -808,10 +832,10 @@ namespace Do_forth {
 
                             else
                             {
-                                (myList, control_buffer_stack, violate, CustomVars) = doSth(myList, control_buffer_stack, command, mode, loop_flag, loop_control_stack, CustomVars);
+                                (myList, control_buffer_stack, violate, CustomVars, allot) = doSth(myList, control_buffer_stack, command, mode, loop_flag, loop_control_stack, CustomVars, allot);
                             }
 
-                            return (myList, control_buffer_stack, violate, CustomVars);
+                            return (myList, control_buffer_stack, violate, CustomVars, allot);
 
                 }
         }

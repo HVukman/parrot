@@ -61,3 +61,4 @@ C:\Users\vukma\OneDrive\parrot\parrot\bin\Debug\net8.0\ru\FSharp.Core.resources.
 C:\Users\vukma\OneDrive\parrot\parrot\bin\Debug\net8.0\tr\FSharp.Core.resources.dll
 C:\Users\vukma\OneDrive\parrot\parrot\bin\Debug\net8.0\zh-Hans\FSharp.Core.resources.dll
 C:\Users\vukma\OneDrive\parrot\parrot\bin\Debug\net8.0\zh-Hant\FSharp.Core.resources.dll
+C:\Users\vukma\OneDrive\parrot\parrot\bin\Debug\net8.0\FsLexYacc.Runtime.dll

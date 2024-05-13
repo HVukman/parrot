@@ -115,7 +115,8 @@ public class Parrot
 
         bool do_loop_flag = false;
         bool while_flag = false;
- 
+
+        BigInteger allot = 0;
 
         while (run)
         {
@@ -144,8 +145,8 @@ public class Parrot
             // Separate seimicolon from word
             
             foreach (string word in pre_processed_words) {
-                Match m = Regex.Match(word, semicolon_pattern, RegexOptions.IgnoreCase);
-                if (m.Success)
+                
+                if (word[word.Length()-1]==';')
                 {
                     string[] semicolon_strings = [word.Substring(0, word.Length - 1), word.Substring(word.Length - 1,1)];
                     foreach (var semicolon_string in semicolon_strings)
@@ -203,11 +204,11 @@ public class Parrot
                             
 
                             (violate, stack, CustomVars, modes, CustomWords, control_flow_stack, 
-                                control_buffer_stack, register, do_loop_flag, while_flag) =
+                                control_buffer_stack, register, do_loop_flag, while_flag, allot) =
                                  ParseStack.Main(stack,
                                  oldstack, word, modes, CustomVars,
                                 CustomWords, control_flow_stack, control_buffer_stack, loop_control_stack,
-                                 do_loop_flag, while_flag, register, run, words);
+                                 do_loop_flag, while_flag, register, run, words, allot);
                         }
 
                         else if (violate == false)

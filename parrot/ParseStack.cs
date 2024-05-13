@@ -22,10 +22,10 @@ namespace parrot
 
         }
 
-        static private (bool, List<string>, Dictionary<string, string>, OP_CODES, Dictionary<string, string>, List<bool>, List<string>, int, bool, bool) ParsingStack(List<string> stack,
+        static private (bool, List<string>, Dictionary<string, string>, OP_CODES, Dictionary<string, string>, List<bool>, List<string>, int, bool, bool, BigInteger) ParsingStack(List<string> stack,
             List<string> oldstack, string word, OP_CODES modes, Dictionary<string, string> CustomVars,
             Dictionary<string, string> CustomWords, List<bool> control_flow_stack, List<string> control_buffer_stack, List<int> loop_control_stack,
-            bool do_loop_flag, bool while_flag, int register, bool run, List<string> words)
+            bool do_loop_flag, bool while_flag, int register, bool run, List<string> words, BigInteger allot)
         
         {
             bool violate = false;
@@ -40,7 +40,7 @@ namespace parrot
             string increment = "inc";
             string if_string = IF_THEN_STRING.IF;
             string pattern2 = @"^""^[a-zA-Z]+(?:\s +[a -zA -Z]+)+""$";
-            string pattern = @"^""[\w\s!:\(\)]+""$";
+            string pattern = @"^""[ *\w\s!:\(\) *]+""$";
             bool boolean_control_flow = false;
             
 
@@ -58,9 +58,15 @@ namespace parrot
                 // Comment mode
             }
 
+            else if (modes == OP_CODES.Compile_Word)
+            {
+
+
+            }
+
             else if (word == "define" && (modes != OP_CODES.Compile_Word || modes != OP_CODES.COMMENT))
             {
-                // modes = OP_CODES.Compile_Word;
+                modes = OP_CODES.Compile_Word;
 
                 if (stack.Length() < 2)
                 {
@@ -75,19 +81,18 @@ namespace parrot
                     try
                     {
                         string name = words[register - 1];
-                        string value = words[register - 2];
-                        CustomWords.Add(name, value);
-                        stack.RemoveAt(stack.Length() - 1);
-                        stack.RemoveAt(stack.Length() - 1);
-                        Console.WriteLine("stored word " + name + " with value " + value);
+                        CustomWords.Add(name,"");
+                        Console.WriteLine("stored word " + name);
                     }
                     catch (ArgumentOutOfRangeException)
                     {
-                        Console.WriteLine("stack is too small! Syntax is \"definition\" \"name\" define ");
+                        Console.WriteLine("stack is too small! Syntax is \"name\" \"define\" then allot words ( ; is sepearte) ");
+                        violate = true;
                     }
                     catch (ArgumentException)
                     {
                         Console.WriteLine("there was an argument exception!");
+                        violate = true;
                     }
 
                 }
@@ -97,10 +102,12 @@ namespace parrot
             // if word is custom function calls itself
                 {
                     var command=CustomWords[word];
-                    (violate, stack, CustomVars, modes, CustomWords, control_flow_stack, control_buffer_stack, register, do_loop_flag, while_flag)= ParsingStack(stack,
-                    oldstack, command, modes,  CustomVars,
-                    CustomWords, control_flow_stack, control_buffer_stack,  loop_control_stack,
-                    do_loop_flag, while_flag, register, run,  words);
+                    (violate, stack, CustomVars, modes, CustomWords, 
+                    control_flow_stack, control_buffer_stack, register, 
+                    do_loop_flag, while_flag, allot)    = ParsingStack(stack,
+                        oldstack, command, modes,  CustomVars,
+                        CustomWords, control_flow_stack, control_buffer_stack,  loop_control_stack,
+                        do_loop_flag, while_flag, register, run,  words, allot);
 
                 }
 
@@ -123,14 +130,14 @@ namespace parrot
                     {
 
 
-                        (stack, control_flow_stack, violate, CustomWords) = parser.Main(stack, control_flow_stack, word.ToLower(),
-                            modes, do_loop_flag, loop_control_stack, CustomWords, violate);
+                        (stack, control_flow_stack, violate, CustomWords, allot) = parser.Main(stack, control_flow_stack, word.ToLower(),
+                            modes, do_loop_flag, loop_control_stack, CustomWords, violate , allot);
                     }
                     if (while_flag == true)
                     {
 
-                        (control_buffer_stack, control_flow_stack, violate, CustomWords) = parser.Main(control_buffer_stack, control_flow_stack, word.ToLower(),
-                        modes, do_loop_flag, loop_control_stack, CustomWords, violate);
+                        (control_buffer_stack, control_flow_stack, violate, CustomWords, allot) = parser.Main(control_buffer_stack, control_flow_stack, word.ToLower(),
+                        modes, do_loop_flag, loop_control_stack, CustomWords, violate, allot);
                     }
                     // PRINT STATEMENT
                     // Console.WriteLine("register: " + register.ToString());
@@ -172,8 +179,8 @@ namespace parrot
                 else
                 {
                     //              Console.Write(word);
-                    (control_buffer_stack, control_flow_stack, violate, CustomWords) = parser.Main(control_buffer_stack, control_flow_stack, word.ToLower(),
-                             modes, do_loop_flag, loop_control_stack, CustomWords, violate);
+                    (control_buffer_stack, control_flow_stack, violate, CustomWords, allot) = parser.Main(control_buffer_stack, control_flow_stack, word.ToLower(),
+                             modes, do_loop_flag, loop_control_stack, CustomWords, violate, allot);
                 }
 
                 // DoForth.printstack(stack);
@@ -252,8 +259,8 @@ namespace parrot
                             else if (word != increment && word != "else")
                             {
                                 Console.Write("hello");
-                                (stack, control_flow_stack, violate, CustomWords) = parser.Main(stack, control_flow_stack, word.ToLower(),
-                             modes, do_loop_flag, loop_control_stack, CustomWords, violate);
+                                (stack, control_flow_stack, violate, CustomWords, allot) = parser.Main(stack, control_flow_stack, word.ToLower(),
+                             modes, do_loop_flag, loop_control_stack, CustomWords, violate, allot);
 
                             }
 
@@ -540,30 +547,30 @@ namespace parrot
 
 
 
-            return (violate, stack, CustomVars, modes, CustomWords, control_flow_stack, control_buffer_stack, register, do_loop_flag, while_flag);
+            return (violate, stack, CustomVars, modes, CustomWords, control_flow_stack, control_buffer_stack, register, do_loop_flag, while_flag, allot);
         }
 
         
         
         
-        public static (bool, List<string>, Dictionary<string, string>, OP_CODES, Dictionary<string, string>, List<bool>, List<string>, int, bool, bool) Main(List<string> stack,
+        public static (bool, List<string>, Dictionary<string, string>, OP_CODES, Dictionary<string, string>, List<bool>, List<string>, int, bool, bool, BigInteger) Main(List<string> stack,
             List<string> oldstack, string word, OP_CODES modes, Dictionary<string, string> CustomVars,
             Dictionary<string, string> CustomWords, List<bool> control_flow_stack, List<string> control_buffer_stack, List<int> loop_control_stack,
-            bool do_loop_flag, bool while_flag, int register, bool run, List<string> words
-
+            bool do_loop_flag, bool while_flag, int register, bool run, List<string> words,
+            BigInteger allot
             )
         
         {
             bool violate=false;
 
-            (violate, stack, CustomVars, modes, CustomWords, control_flow_stack, control_buffer_stack, register, do_loop_flag, while_flag) = ParsingStack( stack,
+            (violate, stack, CustomVars, modes, CustomWords, control_flow_stack, control_buffer_stack, register, do_loop_flag, while_flag,allot) = ParsingStack( stack,
             oldstack, word,  modes, CustomVars,
              CustomWords, control_flow_stack, control_buffer_stack, loop_control_stack,
-             do_loop_flag, while_flag,register, run, words);
+             do_loop_flag, while_flag,register, run, words, allot);
             
 
 
-            return (violate, stack, CustomVars, modes, CustomWords, control_flow_stack, control_buffer_stack, register, do_loop_flag, while_flag);
+            return (violate, stack, CustomVars, modes, CustomWords, control_flow_stack, control_buffer_stack, register, do_loop_flag, while_flag, allot);
         }
     }
 }

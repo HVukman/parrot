@@ -55,6 +55,10 @@
               "target": "Package",
               "version": "[12.2.0, )"
             },
+            "FsLexYacc": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
             "HexDump": {
               "target": "Package",
               "version": "[1.0.0, )"

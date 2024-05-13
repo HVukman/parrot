@@ -8,7 +8,7 @@
         public static string[] func = ["func"];
 
         public static List<string> standardwords = ["bye", "+", "add", "*", "mul", "-", "sub", "/", "div", "drop", "dup", "swap", "rot", "over", "nip", "clear",
-            "echo", "rev", "curry", "dump", "=", "<", ">", "!=","inc","store", "fetch" , "peek" ,"print"];   
+            "echo", "rev", "curry", "dump", "=", "<", ">", "!=","inc","store", "fetch" , "peek" ,"print", "allot"];   
        
         //public static string[] standardwords = ["bye", "+", "add", "*", "mul", "-", "sub", "/", "div", "drop", "dup", "swap", "rot", "over", "nip", "clear", 
          //   "echo", "rev", "curry", "dump", "=", "<", ">", "!=","inc","store", "fetch"];
