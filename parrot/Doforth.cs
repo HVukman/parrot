@@ -305,34 +305,30 @@ namespace Do_forth {
             var y = myList.Last();
             var x1 = myList[myList.Count - 2];
 
-            
-            bool compare = (y.GetType() == x1.GetType());
-           
-            if ( compare==true )
+
+            var end = BigInteger.TryParse( y, out BigInteger result);
+            var second_to_last = BigInteger.TryParse(y, out BigInteger result2);
+
+
+            if ( end==true && second_to_last && true )
             {
-                Type type_of_vars = y.GetType();
-
-                if(type_of_vars== typeof(BigInteger) )
-                {
-
-                        try
-                        {
+                
                             switch (command)
                             {
                                 case "=":
-                                    check = (Int32.Parse(y) == Int32.Parse(x1));
+                                    check = (result == result2);
                                     violate = false;
                                     break;
                                 case "!=":
-                                    check = (Int32.Parse(y) != Int32.Parse(x1));
+                                    check = (result != result2);
                                     violate = false;
                                     break;
                                 case ">":
-                                    check = (Int32.Parse(y) < Int32.Parse(x1));
+                                    check = (result > result2);
                                     violate = false;
                                     break;
                                 case "<":
-                                    check = (Int32.Parse(y) > Int32.Parse(x1));
+                                    check = (result < result2);
                                     violate = false;
                                     break;
                                 default:
@@ -341,19 +337,13 @@ namespace Do_forth {
                             }
 
 
-                        }
-                        catch (FormatException)
-                        {
-                            return false;
-                            throw new Exception("what");
-                        }
-                }
+                        
+            }
 
-                else if (type_of_vars==typeof(string) ) 
+            else if ( end==false || second_to_last ==false ) 
                 
-                {
-                    try
-                    {
+            {
+                    
                         switch (command)
                         {
                             case "=":
@@ -377,16 +367,10 @@ namespace Do_forth {
                                 break;
                         }
 
-                    }
-                    catch (FormatException)
-                    {
-                        return false;
-                        throw new Exception("what");
-                    }
+                   
 
-                }
-                
             }
+
 
 
             switch (mode)

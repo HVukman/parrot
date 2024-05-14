@@ -95,7 +95,7 @@ public class Parrot
 
 
         List<int> loop_control_stack = new List<int>();
-
+        bool boolean_control_flow=false;
 
 
         var panel = new Panel("Hello There!");
@@ -203,12 +203,13 @@ public class Parrot
                             string word = words[register];
                             
 
-                            (violate, stack, CustomVars, modes, CustomWords, control_flow_stack, 
-                                control_buffer_stack, register, do_loop_flag, while_flag, allot) =
+                            (violate, stack, CustomVars, modes, CustomWords, control_flow_stack,
+                                    control_buffer_stack, register, do_loop_flag, while_flag, boolean_control_flow, allot) =
                                  ParseStack.Main(stack,
-                                 oldstack, word, modes, CustomVars,
+                                oldstack, word, modes, CustomVars,
                                 CustomWords, control_flow_stack, control_buffer_stack, loop_control_stack,
-                                 do_loop_flag, while_flag, register, run, words, allot);
+                                boolean_control_flow, do_loop_flag, while_flag, register, run, words, allot 
+                               );
                         }
 
                         else if (violate == false)
@@ -224,10 +225,8 @@ public class Parrot
                     control_flow_stack.Clear();
                     loop_control_stack.Clear();
                     do_loop_flag = false;
-                    while_flag = false;
-                    control_flow_stack.Clear();
+                    while_flag = false;                  
                     control_buffer_stack.Clear();
-                    loop_control_stack.Clear();
                     // Console.WriteLine("control stack clear");
                     if (userinput != "echo")
                     {
