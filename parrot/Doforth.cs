@@ -307,7 +307,7 @@ namespace Do_forth {
 
 
             var end = BigInteger.TryParse( y, out BigInteger result);
-            var second_to_last = BigInteger.TryParse(y, out BigInteger result2);
+            var second_to_last = BigInteger.TryParse(x1, out BigInteger result2);
 
 
             if ( end==true && second_to_last && true )

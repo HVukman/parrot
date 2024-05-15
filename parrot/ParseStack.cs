@@ -130,6 +130,7 @@ namespace parrot
                         (stack, control_flow_stack, violate, CustomVars, CustomWords, allot, modes) = parser.Main(stack, control_flow_stack, word.ToLower(),
                                                  modes, do_loop_flag, loop_control_stack, CustomVars, CustomWords, violate, allot);
                     }
+
                     if (while_flag == true)
                     {
                         (control_buffer_stack, control_flow_stack, violate, CustomVars, CustomWords, allot, modes) = parser.Main(control_buffer_stack, control_flow_stack, word.ToLower(),
@@ -438,7 +439,7 @@ namespace parrot
 
             {
                 Console.WriteLine("begin while");
-
+                while_flag = false;
             }
 
             else if (word == "while")
@@ -450,6 +451,7 @@ namespace parrot
                     // Console.WriteLine("while only in while loop!");
                     // violate= true;
                 }
+
                 if (while_flag == true)
                 {
                     //Console.WriteLine("Only one while!");
@@ -461,13 +463,16 @@ namespace parrot
             else if (word == "end-while")
             {
                 while_flag = false;
+
                 try
                 {
 
                     bool end_check = bool.Parse(control_buffer_stack.Last());
                     if (end_check == true)
                     {
-
+                        // continue
+                        while_flag = false;
+                        
                     }
                     else if (end_check == false)
                     {
