@@ -9,7 +9,7 @@
 
         public static List<string> standardwords = ["bye", "+", "add", "*", "mul", "-", "sub", "/", "div", "drop", "dup", "swap", "rot", "over", "nip", "clear",
             "echo", "rev", "curry", "dump", "=", "<", ">", "!=","inc","store", "fetch" , 
-            "define", "compile", "peek" ,"print", "allot","?vars","?consts","?funcs"];   
+            "define", "compile", "peek" ,"print", "allot","?vars","?consts","?funcs", "break" , "violate"];   
        
         //public static string[] standardwords = ["bye", "+", "add", "*", "mul", "-", "sub", "/", "div", "drop", "dup", "swap", "rot", "over", "nip", "clear", 
          //   "echo", "rev", "curry", "dump", "=", "<", ">", "!=","inc","store", "fetch"];

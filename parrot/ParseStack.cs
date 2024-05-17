@@ -46,16 +46,29 @@ namespace parrot
             string if_string = IF_THEN_STRING.IF;
             string pattern2 = @"^""^[a-zA-Z]+(?:\s +[a -zA -Z]+)+""$";
             string pattern = @"^""[ *\w\s!:\(\) *]+""$";
-            
-            
+
+
 
 
             // if word 0 and 1 == /
             // then comment mode
-            if (word[0] == '/' && word[1] == '/' && modes != OP_CODES.COMMENT)
-            {
-                modes = OP_CODES.COMMENT;
+           
+            if(word[0] == '/' && modes != OP_CODES.COMMENT) {
+
+                if (word.Length()>1 && word[1] == '/')
+                {
+                    modes = OP_CODES.COMMENT;
+                }
+
             }
+                 
+            
+            else if (word == "")
+            {
+                // ignore whitespace
+                Console.WriteLine("empty here");
+            }
+            
 
             else if (modes == OP_CODES.COMMENT && word != "\n")
             {
@@ -125,8 +138,6 @@ namespace parrot
                     //Console.WriteLine((int.TryParse(word, out int number3)));
                     if (while_flag == false)
                     {
-
-
                         (stack, control_flow_stack, violate, CustomVars, CustomWords, allot, modes) = parser.Main(stack, control_flow_stack, word.ToLower(),
                                                  modes, do_loop_flag, loop_control_stack, CustomVars, CustomWords, violate, allot);
                     }
@@ -161,25 +172,75 @@ namespace parrot
             else if (modes == OP_CODES.IF_Mode && word != "then")
             {
                 DoForth parser = new DoForth();
+                try
+                {
+                    if (do_loop_flag == true && word == increment && loop_control_stack.Length() > 1)
+                    // Use loop index while in loop
+                    // Length check for own safety
 
+                    {
+                        int loop_i = loop_control_stack[loop_control_stack.Length() - 2];
+                        control_buffer_stack.Add(loop_i.ToString());
+                        //                    Console.Write("index i: ", loop_i);
+                    }
+
+                    else if (do_loop_flag == true && word == "break" && loop_control_stack.Length() > 1)
+                    // Break loop
+
+                    {
+                        do_loop_flag = false;
+                        while (word != "loop")
+                        {
+                            register += register;
+                            word = words[register];
+
+                        }
+
+
+
+                    }
+
+                    else if (do_loop_flag == true && word == "loop" && loop_control_stack.Length() > 1)
+
+                    {
+                        // Go back
+                        if (loop_control_stack[loop_control_stack.Length() - 1] == loop_control_stack[loop_control_stack.Length() - 2])
+                        {
+                            do_loop_flag = false;
+                        }
+                        else
+                        {
+                            while (words[register] != "do")
+                            {
+                                register--;
+                                word = words[register];
+
+                            }
+                        }
+
+                    }
+
+                    else
+                    {
+
+                        (control_buffer_stack, control_flow_stack, violate, CustomVars, CustomWords, allot, modes) = parser.Main(control_buffer_stack, control_flow_stack, word.ToLower(),
+                                                   modes, do_loop_flag, loop_control_stack, CustomVars, CustomWords, violate, allot);
+                    }
+
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    Console.WriteLine("there is an out of range exception!");
+                    violate = true;
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    Console.WriteLine("Index out of range in ifthenelse");
+                    Console.WriteLine(do_loop_flag);
+                    violate = true;
+                }
                 // performs action
-                if (do_loop_flag == true && word == increment && loop_control_stack.Length() > 1)
-                // Use loop index while in loop
-                // Length check for own safety
-
-                {
-                    int loop_i = loop_control_stack[loop_control_stack.Length() - 2];
-                    control_buffer_stack.Add(loop_i.ToString());
-                    //                    Console.Write("index i: ", loop_i);
-                }
-
-                else
-                {
-                    //              Console.Write(word);
-                    (control_buffer_stack, control_flow_stack, violate, CustomVars, CustomWords, allot, modes) = parser.Main(control_buffer_stack, control_flow_stack, word.ToLower(),
-                             modes, do_loop_flag, loop_control_stack, CustomVars, CustomWords, violate, allot);
-                }
-
+               
                 // DoForth.printstack(stack);
                 // 
 
@@ -231,19 +292,16 @@ namespace parrot
             {
 
                 DoForth parser = new DoForth();
-                switch (boolean_control_flow)
-                {
-                    // when flow true: do forth until else
-                    case true:
+                
+                try {
+                    switch (boolean_control_flow)
+                    {
+                        // when flow true: do forth until else
+                        case true:
 
-                        if (boolean_control_flow == true && (word != "else"))
-                        {
-                            if (word == ";")
-                            {
-                                modes = OP_CODES.Interpret;
-                            }
 
-                            else if (do_loop_flag == true && word == increment)
+
+                            if (do_loop_flag == true && word == increment)
                             // Use loop index while in loop
                             // Length check for own safety⌈
 
@@ -253,17 +311,18 @@ namespace parrot
                                 //                                      Console.Write("index i: ", loop_i);
                             }
 
-                            else if (word != increment && word != "else")
+                            else if (word != increment && word != "else" && word != ";" && word != "\n")
                             {
-                                Console.Write("hello");
-                               
-                                (stack, control_flow_stack, violate, CustomVars, CustomWords, allot,modes) = parser.Main(stack, control_flow_stack, word.ToLower(),
+
+                                Console.Write("hello ");
+
+                                (stack, control_flow_stack, violate, CustomVars, CustomWords, allot, modes) = parser.Main(stack, control_flow_stack, word.ToLower(),
                              modes, do_loop_flag, loop_control_stack, CustomVars, CustomWords, violate, allot);
 
                             }
 
 
-                            else if (boolean_control_flow == true && word == "else")
+                            else if (word == "else")
                             {
                                 boolean_control_flow = false;
 
@@ -273,46 +332,58 @@ namespace parrot
 
                                 modes = OP_CODES.Interpret;
                             }
+
+                            else if (word=="loop" && do_loop_flag==true)
+                            {
+                                while (words[register] != "do")
+                                {
+                                    register--;
+                                    word= words[register];
+
+                                }
+                            }
+
                             else
                             {
 
                             }
 
-                        }
-                     break;
+
+                            break;
 
 
-                    case false:
+                        case false:
 
-                        //             Console.WriteLine(word);
-                        if (word != "else")
-                        {
+                            //             Console.WriteLine(word);
+                            if (word != "else")
+                            {
+                                //Console.WriteLine("do nothing");
+                            }
 
-                        }
+                            else if (word == "else")
+                            {
 
-                        else if ( word == "else")
-                        {
+                                boolean_control_flow = true;
 
-                            boolean_control_flow = true;
+                            }
+                            else if ((word == ";" || word == "\n"))
+                            {
 
-                        }
-                        else if ((word == ";" || word == "\n"))
-                        {
+                                modes = OP_CODES.Interpret;
+                            }
 
-                            modes = OP_CODES.Interpret;
-                        }
+                
+                            break;
+                    }
 
-                        else if (do_loop_flag == true && word == increment && loop_control_stack.Length() > 1)
-                        // Use loop index while in loop
-                        // Length check for own safety
-
-                        {
-                            int loop_i = loop_control_stack[loop_control_stack.Length() - 2];
-                            stack.Add(loop_i.ToString());
-                            //Console.Write("index i: ", loop_i);
-                        }
-                    break;
                 }
+                catch (IndexOutOfRangeException) {
+                    Console.WriteLine("index out of range?");
+                    Console.WriteLine(word);
+                    Console.WriteLine(register);
+                    violate = true;
+                }
+                
 
             }
 
@@ -349,10 +420,12 @@ namespace parrot
                         {
                             loop_control_stack.Add(loop_start);
                             loop_control_stack.Add(loop_end);
+                            stack.RemoveAt(stack.Length() - 1);
+                            
+                            stack.RemoveAt(stack.Length() - 1);
                             //loop_control_stack[loop_control_stack.Length() - 2] = loop_start;
                             //loop_control_stack[loop_control_stack.Length() - 1] = loop_end;
-                            stack.RemoveAt(stack.Length() - 1);
-                            stack.RemoveAt(stack.Length() - 1);
+
                             do_loop_flag = true;
 
                         }
@@ -370,16 +443,23 @@ namespace parrot
                     violate = true;
                 }
 
-                catch (ArgumentOutOfRangeException e)
+                catch (ArgumentOutOfRangeException)
                 {
                     Console.WriteLine("Stack is too small! Syntax is int_end int_begin do .... loop");
                     violate = true;
                 }
+                catch (IndexOutOfRangeException)
+                {
+                    Console.WriteLine("Somewhere an index is wrong!");
+                    violate = true;
+                }
 
-                catch (DoForthErrorException e)
+                catch (DoForthErrorException)
                 {
                     violate = true;
                 }
+
+                
             }
 
             else if (word == "loop" && modes != OP_CODES.COMMENT)
@@ -399,7 +479,9 @@ namespace parrot
                 {
                     // increment index until ==
                     loop_control_stack[loop_control_stack.Length() - 2]++;
-                    if (loop_control_stack[loop_control_stack.Length() - 1] == loop_control_stack[loop_control_stack.Length() - 2])
+                    int end = loop_control_stack[loop_control_stack.Length() - 2];
+                    int begin = loop_control_stack[loop_control_stack.Length() - 1];
+                    if (end >= begin)
 
                     {
                         // go on in instruction and loop is false!
@@ -412,11 +494,11 @@ namespace parrot
                     {
 
                         // if mode== if then -> then switch
-                        if (modes == OP_CODES.IF_THEN_Mode)
+                      /*  if (modes == OP_CODES.IF_THEN_Mode)
                         {
                             modes = OP_CODES.Interpret;
 
-                        }
+                        } */
 
                         while (word != "do")
                         // decrease register until do!
@@ -505,7 +587,7 @@ namespace parrot
                     Console.WriteLine("There must be a bool check after the while!");
                     violate = true;
                 }
-
+                
             }
 
             else if (word == ";" && modes != OP_CODES.COMMENT)
@@ -610,20 +692,33 @@ namespace parrot
             // if not compile do this!
             else
 
-               
-            {
-                (violate, stack, CustomVars, modes, CustomWords, control_flow_stack,
-                                   control_buffer_stack, register, do_loop_flag, while_flag, boolean_control_flow, allot) 
-                                   = ParsingStack(stack,
-                                oldstack, word, modes, CustomVars,
-                                CustomWords, control_flow_stack, control_buffer_stack, loop_control_stack,
-                                do_loop_flag, while_flag,
-                                register, run, words, allot, boolean_control_flow);
+                try {
+                    {
+                        (violate, stack, CustomVars, modes, CustomWords, control_flow_stack,
+                                           control_buffer_stack, register, do_loop_flag, while_flag, boolean_control_flow, allot)
+                                           = ParsingStack(stack,
+                                        oldstack, word, modes, CustomVars,
+                                        CustomWords, control_flow_stack, control_buffer_stack, loop_control_stack,
+                                        do_loop_flag, while_flag,
+                                        register, run, words, allot, boolean_control_flow);
 
-            }
+                    }
 
-
-
+                }
+                catch (IndexOutOfRangeException) {
+                    if (word == "")
+                    {
+                        Console.WriteLine("empty");
+                       // Console.WriteLine(words[register]);
+                    }
+                    Console.WriteLine("index out of range at " + word);
+                    
+                    Console.WriteLine(modes.ToString());
+                    Console.WriteLine(register);
+                    //Console.WriteLine(word);
+                    violate = true;
+                
+                }
 
             return (violate, stack, CustomVars, modes, CustomWords, control_flow_stack,
                                    control_buffer_stack, register, do_loop_flag, while_flag, boolean_control_flow, allot);

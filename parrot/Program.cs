@@ -146,7 +146,7 @@ public class Parrot
             
             foreach (string word in pre_processed_words) {
                 
-                if (word[word.Length()-1]==';')
+                if (word[word.Length()-1]==';' && word!=";")
                 {
                     string[] semicolon_strings = [word.Substring(0, word.Length - 1), word.Substring(word.Length - 1,1)];
                     foreach (var semicolon_string in semicolon_strings)
@@ -156,14 +156,14 @@ public class Parrot
                         // Console.WriteLine(semicolon_string);
                     }
                 }
-                else if (word=="")
+                else if (word=="" || word==" ")
                 {
                     continue;
                 }
                 
                 else
                 {
-                    words.Add (word.Trim().ToLower());
+                    words.Add (word.Trim());
                 }
                 
             }
@@ -201,7 +201,7 @@ public class Parrot
                         if (violate == false) 
                         {
                             string word = words[register];
-                            
+                            word = word.ToLower();
 
                             (violate, stack, CustomVars, modes, CustomWords, control_flow_stack,
                                     control_buffer_stack, register, do_loop_flag, while_flag, boolean_control_flow, allot) =
