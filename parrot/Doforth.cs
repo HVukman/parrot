@@ -208,7 +208,7 @@ namespace Do_forth {
             Console.WriteLine("the first element was: " + y.ToString());
         }
 
-        public static bool Sum(List<string> myList, bool violate)
+        public static (List<string>,bool) Sum(List<string> myList, bool violate)
         // ... -- y
         {
             try {
@@ -228,7 +228,7 @@ namespace Do_forth {
                 Console.WriteLine("Only ints in sum!");
                 violate= true;
             }
-        return violate;
+        return (myList,violate);
             
         }
 
@@ -296,7 +296,7 @@ namespace Do_forth {
             return (allot, violate);
         }
 
-        public static bool Bool_checks(string command, List<string> myList, List<bool> flow_check, Parrot.Parrot.OP_CODES mode , bool violate)
+        public static (List<string>, List<bool>,bool) Bool_checks(string command, List<string> myList, List<bool> control_buffer_stack, Parrot.Parrot.OP_CODES mode , bool violate)
         {
             // command is given as argument
             bool check = false;
@@ -310,7 +310,7 @@ namespace Do_forth {
             var second_to_last = BigInteger.TryParse(x1, out BigInteger result2);
 
 
-            if ( end==true && second_to_last && true )
+            if ( end==true && second_to_last == true )
             {
                 
                             switch (command)
@@ -324,11 +324,11 @@ namespace Do_forth {
                                     violate = false;
                                     break;
                                 case ">":
-                                    check = (result > result2);
+                                    check = (result2 > result);
                                     violate = false;
                                     break;
                                 case "<":
-                                    check = (result < result2);
+                                    check = (result2 < result);
                                     violate = false;
                                     break;
                                 default:
@@ -383,12 +383,12 @@ namespace Do_forth {
                     break;
 
                 case Parrot.Parrot.OP_CODES.IF_Mode:
-                    flow_check.Add(check);
+                    control_buffer_stack.Add(check);
                     violate = false;
                     break;
             }
 
-            return violate;
+            return (myList, control_buffer_stack,violate);
 
         }
 
@@ -711,7 +711,7 @@ namespace Do_forth {
                 {
                     if (myList.Count > 1)
                     {
-                        violate = Bool_checks(command, myList, control_buffer_stack, mode, violate);
+                        (myList, control_buffer_stack,violate) = Bool_checks(command, myList, control_buffer_stack, mode, violate);
                     }
                     else
                     {
@@ -735,9 +735,10 @@ namespace Do_forth {
                 {
 
                     case "sum":
-                        violate= Sum(myList, violate);
+                        (myList,violate)= Sum(myList, violate);
                         break;
                     default:
+                        Console.WriteLine("not there yet");
                         break;
                 }
 
@@ -856,10 +857,12 @@ namespace Do_forth {
 
                             }
 
-
+                            
                             else
                             {
-                                (myList, control_buffer_stack, violate, CustomVars, CustomWord, allot, mode) = doSth(myList, control_buffer_stack, command, mode, loop_flag, loop_control_stack, CustomVars, CustomWord, allot);
+                            // Console.WriteLine(command);
+                            (myList, control_buffer_stack, violate, CustomVars, CustomWord, allot, mode) = doSth(myList, control_buffer_stack, command, mode,
+                                    loop_flag, loop_control_stack, CustomVars, CustomWord, allot);
                             }
 
                             return (myList, control_buffer_stack, violate, CustomVars, CustomWord, allot, mode);

@@ -4,4 +4,4 @@ sum
 sum
 
 
-1 10 do if 3 inc % 0 = then inc else ; loop ;
+1 10 do if 3 inc % 0 = then inc else ; loop;

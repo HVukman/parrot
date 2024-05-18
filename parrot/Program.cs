@@ -117,7 +117,7 @@ public class Parrot
         bool while_flag = false;
 
         BigInteger allot = 0;
-
+        int register = 0;
         while (run)
         {
 
@@ -180,9 +180,7 @@ public class Parrot
 
                 if (userinput != null)
                 {
-                    oldstack = stack.ToList();
-                    //Tokenizer_check checks = new Tokenizer_check();
-                    //words = commands.ToList();
+                    
 
                     
                     var violate = false;
@@ -195,13 +193,14 @@ public class Parrot
 
 
 
-                    for (int register = 0; register < input_length; register++)
+                    while (register < words.Length())
                         
                     {
                         if (violate == false) 
                         {
                             string word = words[register];
                             word = word.ToLower();
+                           
 
                             (violate, stack, CustomVars, modes, CustomWords, control_flow_stack,
                                     control_buffer_stack, register, do_loop_flag, while_flag, boolean_control_flow, allot) =
@@ -210,18 +209,30 @@ public class Parrot
                                 CustomWords, control_flow_stack, control_buffer_stack, loop_control_stack,
                                 boolean_control_flow, do_loop_flag, while_flag, register, run, words, allot 
                                );
+
+                     //   Console.WriteLine("register " + modes.ToString());
                         }
 
-                        else if (violate == false)
+                        else if (violate == true)
                         {
+                            modes = OP_CODES.Interpret;
+                            control_buffer_stack.Clear();
+                            loop_control_stack.Clear();
+                            do_loop_flag = false;
+                            while_flag = false;
+                            register = 0;
                             break;
+                            
+
                         }
                         
 
                     }
                 }
+
                 if (run != false)
                 {
+                    register = 0;
                     control_flow_stack.Clear();
                     loop_control_stack.Clear();
                     do_loop_flag = false;

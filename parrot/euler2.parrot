@@ -10,3 +10,6 @@ clear
 clear
 0 1
 1 "end" fetch do fib loop;
+
+0 1 1 begin-while over over + while 40 < end-while;
+0 1 1 begin-while over over + while 40 > end-while;
