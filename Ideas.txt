@@ -1,0 +1,59 @@
+violate -> violate = true and end
+
+
+## system dictionary
+debug print
+fetches dictionary entries
+
+
+
+if ... then ....
+else-if ... then ....
+else .....
+
+if ... and ... then
+if... or ... then
+
+if_or_stack?
+
+
+## math
+
+rational numbers!
+
+
+log 
+exp
+pow
+sin
+cos
+arctan
+....
+
+1/3 = 0.3
+0.3 0.3  -> 0.6
+
+(2 3 4) (>2) filter -> (3 4) 
+(2 3 4) (<2) filter -> ()
+
+(2 3 4) (>2) where -> (1 2)
+(2 3 4) (=2) where -> (0)
+
+standard tokens
+(>2) (=2) (!=2) (>=2) (<=2)
+(even) (!even) (prime) (!prime)
+(>len2) for strings
+
+
+("aaa" "a") (>len2) filter -> ("aaa")
+
+
+(2 3 4 "stored") (>2) store-where -> "stored" variable with (1 2)
+
+variable class with objects
+
+
+
+
+
+

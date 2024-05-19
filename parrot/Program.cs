@@ -113,6 +113,10 @@ public class Parrot
         Dictionary<string, string> CustomVars =
             new Dictionary<string, string>();
 
+        // system settings
+            Dictionary<string, string> Systemvars =
+                    new Dictionary<string, string>();
+
         bool do_loop_flag = false;
         bool while_flag = false;
 

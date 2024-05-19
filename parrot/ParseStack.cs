@@ -95,10 +95,11 @@ namespace parrot
                     // Console.WriteLine("custom word " + word);
                     // 
                     List<string> _customs= CustomWords[word];
-
-                    
+                    int customs_size = _customs.Count();
+                    int offset_register = 0;
                     foreach (string customword in _customs)
                     {
+                    // do each word
                     if (customword!="")
                         {
                             //DEBUG CUSTOMWORD
@@ -113,8 +114,12 @@ namespace parrot
                                 CustomWords, control_flow_stack, control_buffer_stack, loop_control_stack,
                                 do_loop_flag, while_flag, register, run, words, allot, boolean_control_flow);
                             
+                            
                         }
+                    
                     }
+                    // reset register +1 to escape loop
+                    register = register - customs_size +1 ;
                     
                 }
                 catch (Exception e)
@@ -141,6 +146,7 @@ namespace parrot
                     //Console.WriteLine((int.TryParse(word, out int number3)));
                     if (while_flag == false)
                     {
+
                         (stack, control_flow_stack, violate, CustomVars, CustomWords, allot, modes) = parser.Main(stack, control_flow_stack, word.ToLower(),
                                                  modes, do_loop_flag, loop_control_stack, CustomVars, CustomWords, violate, allot);
                         register++;
@@ -148,6 +154,7 @@ namespace parrot
 
                     if (while_flag == true)
                     {
+                    
                         (control_buffer_stack, control_flow_stack, violate, CustomVars, CustomWords, allot, modes) = parser.Main(control_buffer_stack, control_flow_stack, word.ToLower(),
                                                      modes, do_loop_flag, loop_control_stack, CustomVars, CustomWords, violate, allot);
                         register++;
@@ -336,14 +343,29 @@ namespace parrot
                                 
                             {
 
+                                if (while_flag == true)
+                                {
+                                    (violate, control_buffer_stack, CustomVars, modes, CustomWords, control_flow_stack,
+                                         control_buffer_stack, register, do_loop_flag, while_flag, boolean_control_flow, allot)
+                                         = ParsingStack(control_buffer_stack,
+                                      oldstack, word, modes, CustomVars,
+                                      CustomWords, control_flow_stack, control_buffer_stack, loop_control_stack,
+                                      do_loop_flag, while_flag,
+                                      register, run, words, allot, boolean_control_flow);
+                                    register++;
+                                }
 
-                                (violate, stack, CustomVars, modes, CustomWords, control_flow_stack,
+                                else {
+                                    (violate, stack, CustomVars, modes, CustomWords, control_flow_stack,
                                          control_buffer_stack, register, do_loop_flag, while_flag, boolean_control_flow, allot)
                                          = ParsingStack(stack,
                                       oldstack, word, modes, CustomVars,
                                       CustomWords, control_flow_stack, control_buffer_stack, loop_control_stack,
                                       do_loop_flag, while_flag,
                                       register, run, words, allot, boolean_control_flow);
+                                        register++;
+                                }
+                                
                                 
                             }
 
@@ -558,40 +580,44 @@ namespace parrot
 
             else if (word == "while")
             {
+                
                 if (while_flag == false)
                 {
                     while_flag = true;
                     control_buffer_stack = stack.ToList();
-                    register++;
+                    
                     // Console.WriteLine("while only in while loop!");
                     // violate= true;
                 }
 
                 if (while_flag == true)
                 {
-                    register++;
+                    
                     //Console.WriteLine("Only one while!");
                     // violate=true;
 
                 }
+                register++;
+               
             }
 
             else if (word == "end-while")
             {
                 while_flag = false;
-
+                
                 try
                 {
 
                     bool end_check = bool.Parse(control_buffer_stack.Last());
-                    if (end_check == true)
+                    if (end_check == false)
                     {
                         // continue
                         while_flag = false;
                         register++;
+                        
 
                     }
-                    else if (end_check == false)
+                    else if (end_check == true)
                     {
 
                         while (word != "begin-while")

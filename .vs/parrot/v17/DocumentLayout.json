@@ -3,14 +3,6 @@
   "WorkspaceRootPath": "C:\\Users\\vukma\\OneDrive\\parrot\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\parsestack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\parsestack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\doforth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\doforth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -19,12 +11,20 @@
       "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\euler2.parrot||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\euler1.parrot||{8B382828-6202-11D1-8870-0000F87579D2}",
-      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\euler1.parrot||{8B382828-6202-11D1-8870-0000F87579D2}"
+      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\parsestack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\parsestack.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\consts_variables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\consts_variables.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\doforth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\doforth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|c:\\users\\vukma\\onedrive\\parrot\\parrot\\euler1.parrot||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{9B369EF6-D4D8-4736-90BC-1967B51C7BAB}|parrot\\parrot.csproj|solutionrelative:parrot\\euler1.parrot||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\vukma\\AppData\\Local\\SourceServer\\01f3ae2915ee83cb5fe03d0b4376d6ed031178f6079261b8195c08fb84b1c66f\\src\\libraries\\System.Private.CoreLib\\src\\System\\String.Comparison.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
@@ -58,15 +58,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Document",
@@ -106,33 +102,32 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "euler1.parrot",
               "DocumentMoniker": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\euler1.parrot",
               "RelativeDocumentMoniker": "parrot\\euler1.parrot",
               "ToolTip": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\euler1.parrot",
               "RelativeToolTip": "parrot\\euler1.parrot",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2024-05-07T18:42:18.232Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-07T18:42:18.232Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "euler2.parrot",
               "DocumentMoniker": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\euler2.parrot",
               "RelativeDocumentMoniker": "parrot\\euler2.parrot",
               "ToolTip": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\euler2.parrot",
               "RelativeToolTip": "parrot\\euler2.parrot",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAiAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
               "WhenOpened": "2024-05-07T18:42:13.793Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "Consts_Variables.cs",
               "DocumentMoniker": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\Consts_Variables.cs",
               "RelativeDocumentMoniker": "parrot\\Consts_Variables.cs",
@@ -140,8 +135,7 @@
               "RelativeToolTip": "parrot\\Consts_Variables.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAABZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-23T20:09:45.187Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-23T20:09:45.187Z"
             },
             {
               "$type": "Document",
@@ -157,16 +151,15 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "ParseStack.cs",
               "DocumentMoniker": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\ParseStack.cs",
               "RelativeDocumentMoniker": "parrot\\ParseStack.cs",
               "ToolTip": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\ParseStack.cs",
               "RelativeToolTip": "parrot\\ParseStack.cs",
-              "ViewState": "AQIAAI0AAAAAAAAAAAA2wJYAAAAYAAAA",
+              "ViewState": "AQIAAG0AAAAAAAAAAIAzwHgAAAA3AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-10T14:31:20.629Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-10T14:31:20.629Z"
             },
             {
               "$type": "Document",
@@ -182,26 +175,25 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 4,
               "Title": "Doforth.cs",
               "DocumentMoniker": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\Doforth.cs",
               "RelativeDocumentMoniker": "parrot\\Doforth.cs",
               "ToolTip": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\Doforth.cs",
               "RelativeToolTip": "parrot\\Doforth.cs",
-              "ViewState": "AQIAAEQDAAAAAAAAAIA4wE0DAAAcAAAA",
+              "ViewState": "AQIAAIUAAAAAAAAAAAAAAE0DAAAcAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-23T20:09:45.255Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-04-23T20:09:45.255Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\Program.cs",
               "RelativeDocumentMoniker": "parrot\\Program.cs",
               "ToolTip": "C:\\Users\\vukma\\OneDrive\\parrot\\parrot\\Program.cs",
               "RelativeToolTip": "parrot\\Program.cs",
-              "ViewState": "AQIAAHsAAAAAAAAAAAAnwNQAAAAXAAAA",
+              "ViewState": "AQIAAPgAAAAAAAAAAAA3wAIBAAANAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-23T20:09:45.256Z",
               "EditorCaption": ""
@@ -216,8 +208,7 @@
               "RelativeToolTip": "..\\..\\AppData\\Local\\SourceServer\\8a57e8b56cc8d2572866abd7f75f19295cfbaffeb7a20c2dbcbdcda8ea14c6ea\\src\\libraries\\System.Private.CoreLib\\src\\System\\Collections\\Generic\\Dictionary.cs",
               "ViewState": "AQIAAMYBAAAAAAAAAAA3wN4BAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-18T18:35:56.327Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-18T18:35:56.327Z"
             },
             {
               "$type": "Document",
@@ -229,8 +220,7 @@
               "RelativeToolTip": "..\\..\\AppData\\Local\\SourceServer\\01f3ae2915ee83cb5fe03d0b4376d6ed031178f6079261b8195c08fb84b1c66f\\src\\libraries\\System.Private.CoreLib\\src\\System\\String.Comparison.cs",
               "ViewState": "AQIAAFsCAAAAAAAAAAAcwIwCAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-18T18:37:59.793Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-05-18T18:37:59.793Z"
             }
           ]
         }
