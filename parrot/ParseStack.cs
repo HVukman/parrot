@@ -44,8 +44,10 @@ namespace parrot
             string[] func = Consts_Variables.func;
             string increment = "inc";
             string if_string = IF_THEN_STRING.IF;
-            string pattern2 = @"^""^[a-zA-Z]+(?:\s +[a -zA -Z]+)+""$";
-            string pattern = @"^""[ *\w\s!:\(\) *]+""$";
+
+            // pattern for strings
+            string pattern = @"^""(([a-zA-Z!?*-_-§$%]+|\d+|)\s*)*""";
+
 
 
 

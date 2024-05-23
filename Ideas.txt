@@ -1,3 +1,8 @@
+pass structs not massive amounts of parameters
+
+2 10 accumulate -> sum of 2 to 10 
+
+ 
 violate -> violate = true and end
 
 
@@ -20,7 +25,7 @@ if_or_stack?
 ## math
 
 rational numbers!
-
+math.log...
 
 log 
 exp
@@ -51,6 +56,35 @@ standard tokens
 (2 3 4 "stored") (>2) store-where -> "stored" variable with (1 2)
 
 variable class with objects
+
+
+make word immediate?
+
+the word IMMEDIATE makes a word “immediate.” It is used in the form:
+
+: name definition ; IMMEDIATE
+
+that is, it is executed right after the compilation of the definition.
+
+To give an immediate example, let’s define
+
+: SAY-HELLO   ." Hello" ; IMMEDIATE 
+
+We can execute SAY-HELLO interactively, just as we could if it were not immediate.
+
+SAY-HELLO↵ Hello ok 
+
+But if we put SAY-HELLO inside another definition, it will execute at compile time:
+
+: GREET   SAY-HELLO ." I speak Forth " ;↵ Hello ok  
+
+rather than at execution time:
+
+GREET↵ I speak Forth ok 
+
+
+make words objects, set immediate flag
+
 
 
 

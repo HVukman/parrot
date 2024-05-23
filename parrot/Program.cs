@@ -13,6 +13,7 @@ using Microsoft.Win32;
 using LanguageExt.ClassInstances;
 using LanguageExt.ClassInstances.Pred;
 using parrot;
+using static Microsoft.FSharp.Core.ByRefKinds;
 
 
 namespace Parrot { 
@@ -37,6 +38,8 @@ public class Parrot
         IF_THEN_Mode // performs if then check
          
     }
+
+    public struct tokens;
 
 
     public static class IF_THEN_STRING 
@@ -90,7 +93,7 @@ public class Parrot
 
         List<string>  pre_processed_words = new List<string>();
         List <string> words = new List<string>();
-        string[] commands;
+        List<string> commands= new List<string>(); ;
         List<string> command = new List<string>();      
 
 
@@ -129,26 +132,36 @@ public class Parrot
             string userinput = AnsiConsole.Ask<string>("What's your [gold1]input[/]?");
             oldinputs.Add(userinput);
             userinput = userinput.Trim();
-            // Console.WriteLine("Enter Instruction ->");
+                // Console.WriteLine("Enter Instruction ->");
 
-            // Create a string variable and get user input from the keyboard and store it in the variable
+                // Create a string variable and get user input from the keyboard and store it in the variable
 
-            
-            // var userinput = Console.ReadLine().Trim();
-           
 
-            commands = userinput.Split(delimiterChars);
-            pre_processed_words = commands.ToList();
-            
-            // words = commands.ToList();
-            //string pattern = @"^""[\w\s!:\(\)]+""$";
+                // var userinput = Console.ReadLine().Trim();
 
-            string semicolon_pattern =@"(?<=\w)(?=;)";
+
+                //commands = userinput.Split(delimiterChars);
+
+
+
+                commands = Regex.Matches(userinput, @"\""(\""\""|[^\""])+\""|[^ ]+",
+                RegexOptions.ExplicitCapture)
+                  .Cast<Match>()
+                  .Select(m => m.Value)
+                  .ToList();
+
+
+                //pre_processed_words = commands.ToList();
+
+                // words = commands.ToList();
+                //string pattern = @"^""[\w\s!:\(\)]+""$";
+
+                string semicolon_pattern =@"(?<=\w)(?=;)";
 
 
             // Separate seimicolon from word
             
-            foreach (string word in pre_processed_words) {
+            foreach (string word in commands) {
                 
                 if (word[word.Length()-1]==';' && word!=";")
                 {
@@ -173,7 +186,7 @@ public class Parrot
             }
 
             int input_length= words.Count();
-            
+            commands.Clear();
             Console.WriteLine("input length: " + input_length.ToString());
 
                 /*
