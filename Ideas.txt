@@ -1,8 +1,12 @@
 pass structs not massive amounts of parameters
+change parmaters with events in structs
+
+fixed if then mode error
+
 
 2 10 accumulate -> sum of 2 to 10 
 
- 
+
 violate -> violate = true and end
 
 
@@ -13,7 +17,7 @@ fetches dictionary entries
 
 
 if ... then ....
-else-if ... then ....
+else-if ... else-then ....
 else .....
 
 if ... and ... then
@@ -51,6 +55,9 @@ standard tokens
 
 
 ("aaa" "a") (>len2) filter -> ("aaa")
+
+some?
+("aaa" "a") (>len2) some -> true
 
 
 (2 3 4 "stored") (>2) store-where -> "stored" variable with (1 2)

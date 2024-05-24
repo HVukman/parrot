@@ -18,6 +18,17 @@ namespace parrot
     public class ParseStack
     {
 
+
+        public readonly struct tokens()
+
+        {
+            public readonly string if_word = "if";
+            public readonly string else_word = "else";
+            public readonly string increment = "inc";
+
+        }
+
+
         static private void Reset_stack(List<string> stack_fail, List<string> stack_old)
         {
             // reset stack
@@ -34,6 +45,7 @@ namespace parrot
         
         {
             bool violate = false;
+            tokens _tokens = new();
 
             List<string> standardwords = Consts_Variables.standardwords;
             string[] extrawords = Consts_Variables.extrawords;
@@ -42,9 +54,11 @@ namespace parrot
             string[] mult_add_wors = Consts_Variables.mult_add_commands;
             string[] var = Consts_Variables.var;
             string[] func = Consts_Variables.func;
-            string increment = "inc";
-            string if_string = IF_THEN_STRING.IF;
 
+            string increment = _tokens.increment;
+            string if_string = _tokens.if_word;
+
+            bool parseint = BigInteger.TryParse(word, out BigInteger number);
             // pattern for strings
             string pattern = @"^""(([a-zA-Z!?*-_-§$%]+|\d+|)\s*)*""";
 
@@ -132,7 +146,7 @@ namespace parrot
             }
 
 
-            else if (((word == if_string) || mult_add_wors.Contains(word) || standardwords.Contains(word) || extrawords.Contains(word) || ext_stackops.Contains(word) || (BigInteger.TryParse(word, out BigInteger number)) || Regex.IsMatch(word, pattern))
+            else if (((word == if_string) || mult_add_wors.Contains(word) || standardwords.Contains(word) || extrawords.Contains(word) || ext_stackops.Contains(word) || (BigInteger.TryParse(word, out BigInteger number5)) || Regex.IsMatch(word, pattern))
                     && (modes == OP_CODES.Interpret)
                     && (violate == false))
             {
@@ -240,7 +254,7 @@ namespace parrot
                     }
 
                     else if ((mult_add_wors.Contains(word) || ext_stackops.Contains(word) || extrawords.Contains(word) || Regex.IsMatch(word, pattern) ||
-                                (BigInteger.TryParse(word, out BigInteger number2)) || standardwords.Contains(word)))
+                                (BigInteger.TryParse(word, out BigInteger number4)) || standardwords.Contains(word)))
 
                     {
 
@@ -341,31 +355,24 @@ namespace parrot
                             }
 
                             else if ((mult_add_wors.Contains(word) || ext_stackops.Contains(word) || extrawords.Contains(word) || Regex.IsMatch(word, pattern) || 
-                                (BigInteger.TryParse(word, out BigInteger number2)) || standardwords.Contains(word)) && word!=";")
+                                (BigInteger.TryParse(word, out BigInteger number3)) || standardwords.Contains(word)) && word!=";")
                                 
                             {
 
                                 if (while_flag == true)
                                 {
-                                    (violate, control_buffer_stack, CustomVars, modes, CustomWords, control_flow_stack,
-                                         control_buffer_stack, register, do_loop_flag, while_flag, boolean_control_flow, allot)
-                                         = ParsingStack(control_buffer_stack,
-                                      oldstack, word, modes, CustomVars,
-                                      CustomWords, control_flow_stack, control_buffer_stack, loop_control_stack,
-                                      do_loop_flag, while_flag,
-                                      register, run, words, allot, boolean_control_flow);
+
+                                    (control_buffer_stack, control_flow_stack, violate, CustomVars, CustomWords, allot, modes) = parser.Main(control_buffer_stack, control_flow_stack, word.ToLower(),
+                                                     modes, do_loop_flag, loop_control_stack, CustomVars, CustomWords, violate, allot);
                                     register++;
                                 }
 
                                 else {
-                                    (violate, stack, CustomVars, modes, CustomWords, control_flow_stack,
-                                         control_buffer_stack, register, do_loop_flag, while_flag, boolean_control_flow, allot)
-                                         = ParsingStack(stack,
-                                      oldstack, word, modes, CustomVars,
-                                      CustomWords, control_flow_stack, control_buffer_stack, loop_control_stack,
-                                      do_loop_flag, while_flag,
-                                      register, run, words, allot, boolean_control_flow);
-                                        register++;
+
+                                    (stack, control_flow_stack, violate, CustomVars, CustomWords, allot, modes) = parser.Main(stack, control_flow_stack, word.ToLower(),
+                                                             modes, do_loop_flag, loop_control_stack, CustomVars, CustomWords, violate, allot);
+                                    register++;
+
                                 }
                                 
                                 
@@ -407,7 +414,7 @@ namespace parrot
 
                         case false:
 
-                            //             Console.WriteLine(word);
+                            //  Console.WriteLine(word);
                             if (word != "else" && word!=";" && word!="\n")
                             {
                                 register++;

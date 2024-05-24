@@ -817,10 +817,11 @@ namespace Do_forth {
                         case Parrot.Parrot.OP_CODES.Interpret:
                             Pop(myList);
                             Pop(myList);
-
-                            // Console.WriteLine(result);
-
-
+                            myList.Add(result.ToString());
+                            break;
+                        case Parrot.Parrot.OP_CODES.IF_THEN_Mode:
+                            Pop(myList);
+                            Pop(myList);
                             myList.Add(result.ToString());
                             break;
                         case Parrot.Parrot.OP_CODES.IF_Mode:

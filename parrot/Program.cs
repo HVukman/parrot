@@ -20,7 +20,64 @@ namespace Parrot {
 public class Parrot
 {
 
-    [Flags]
+    public struct Struct_stact()
+
+    {
+
+            public List<string> stack { get; set; }
+            public List<string> oldstack { get; set; }
+            public OP_CODES modes { get; set; }
+            public Dictionary<string, string> CustomVars { get; set; }
+            public Dictionary<string, List<string>> CustomWords { get; set; }
+            public List<bool> control_flow_stack { get; set; }
+            public List<string> control_buffer_stack { get; set; }
+            public List<int> loop_control_stack { get; set; }
+            public bool do_loop_flag { get; set; }
+            public bool while_flag { get; set; }
+            public bool boolean_control_flow { get; set; }
+
+            public void Init()
+            {
+                stack = new List<string>();
+                oldstack = new List<string>();
+                control_flow_stack = new List<bool>();
+                control_buffer_stack = new List<string>();
+                modes = OP_CODES.Interpret;
+                CustomVars = new Dictionary<string, string>();
+                CustomWords = new Dictionary<string, List<string>>();
+                control_flow_stack = new List<bool>();
+                control_buffer_stack = new List<string>();
+                loop_control_stack = new List<int>();
+                do_loop_flag = false;
+                while_flag = false;
+                boolean_control_flow = false;
+            }
+
+            public void Reset()
+            {
+                stack = new List<string>();
+                
+            }
+
+    }
+
+     public struct Variable()
+
+        {
+            string name { get; set; }
+            string value { get; set; }
+            Type type { get; set; }
+        }
+
+     public struct Word()
+        {
+            string name { get; set; }
+
+            List<string> definition { get; set; }
+        }
+
+
+        [Flags]
     enum Boolean_Flag : int
     {
         True = 0, False = 1
@@ -39,16 +96,7 @@ public class Parrot
          
     }
 
-    public struct tokens;
 
-
-    public static class IF_THEN_STRING 
-    
-    { 
-
-        public const string IF = "if"; 
-
-    }
 
 
     [Flags]
@@ -72,33 +120,38 @@ public class Parrot
         ConsoleKeyInfo cki;
 
         var run = true;
- 
+
+        Struct_stact stact= new Struct_stact(); 
+        
+
+        stact.Init();
 
         char[] delimiterChars = {' ', ',', '.', ':', '\t' };
-        List<string> oldstack = [];
-        //string userinput;
+        List<string> oldstack = stact.oldstack;
+            //string userinput;
 
 
-        // ENUMS and FLAGS
-        OP_CODES modes = OP_CODES.Interpret;
+            // ENUMS and FLAGS
+        OP_CODES modes = stact.modes;
         IF_THEN iF_THEN_ELSE;
 
 
         List<string> oldinputs= new List<string>();
-        List<string> stack = new List<string>();
+        List<string> stack = stact.stack;
+
         List<List<string>> cyclestack = new List<List<string>>();
 
-        List<bool> control_flow_stack = new List<bool>();
-        List<string> control_buffer_stack = new List<string>();
+        List<bool> control_flow_stack = stact.control_flow_stack;
+        List<string> control_buffer_stack = stact.control_buffer_stack;
 
-        List<string>  pre_processed_words = new List<string>();
+        List<string> pre_processed_words = new List<string>();
         List <string> words = new List<string>();
         List<string> commands= new List<string>(); ;
-        List<string> command = new List<string>();      
+        List<string> command = new List<string>();
 
 
-        List<int> loop_control_stack = new List<int>();
-        bool boolean_control_flow=false;
+        List<int> loop_control_stack = stact.loop_control_stack;
+        bool boolean_control_flow = stact.boolean_control_flow;
 
 
         var panel = new Panel("Hello There!");
@@ -110,22 +163,24 @@ public class Parrot
 
         // Custom Words Dictionary
         Dictionary<string, List<string>> CustomWords =
-            new Dictionary<string, List<string>>();
+                stact.CustomWords;
 
-        // Custom Variables Dictionary
+            // Custom Variables Dictionary
         Dictionary<string, string> CustomVars =
-            new Dictionary<string, string>();
+                stact.CustomVars;
 
         // system settings
             Dictionary<string, string> Systemvars =
                     new Dictionary<string, string>();
 
-        bool do_loop_flag = false;
-        bool while_flag = false;
+        bool do_loop_flag = stact.do_loop_flag;
+        bool while_flag = stact.while_flag;
 
         BigInteger allot = 0;
         int register = 0;
         while (run)
+        
+            
         {
 
             // Type instruction in REPL
