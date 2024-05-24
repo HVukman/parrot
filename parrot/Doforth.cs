@@ -20,6 +20,7 @@ using Parrot;
 using LanguageExt;
 using LanguageExt.ClassInstances;
 using System.Data;
+using System.Collections.Immutable;
 
 
 namespace Do_forth {
@@ -174,13 +175,17 @@ namespace Do_forth {
         public static void Over(List<string> myList)
         // x y -- x y x
         {
-            var y = myList.Last();
-            myList.RemoveAt(myList.Count - 1);
-            var x = myList.Last();
-            myList.RemoveAt(myList.Count - 1);
-            myList.Add(x);
-            myList.Add(y);
-            myList.Add(x);
+
+            /*    Lst<string> newList= new Lst<string>();
+               // newList.
+                newList.AddRange(myList);
+                var yy = newList.Count; 
+                var zz = newList[yy - 2];
+                newList.Add(zz); */
+
+            var over = myList[myList.Count - 2];
+            myList.Add(over);
+
         }
 
 
@@ -274,9 +279,6 @@ namespace Do_forth {
 
         }
 
-
-
-
         public static (bigint,bool) Allot(List<string> myList, bigint allot)
         {
             bool violate=false;
@@ -312,33 +314,37 @@ namespace Do_forth {
 
             if ( end==true && second_to_last == true )
             {
-                
-                            switch (command)
-                            {
-                                case "=":
-                                    check = (result == result2);
-                                    violate = false;
-                                    break;
-                                case "!=":
-                                    check = (result != result2);
-                                    violate = false;
-                                    break;
-                                case ">":
-                                    check = (result2 > result);
-                                    violate = false;
-                                    break;
-                                case "<":
-                                    check = (result2 < result);
-                                    violate = false;
-                                    break;
-                                default:
-                                    violate = true;
-                                    break;
-                            }
+            bool equal_check(BigInteger result, BigInteger result2) => result == result2;
+            bool unequal_check(BigInteger result, BigInteger result2) => result != result2;
+            bool bigger_check(BigInteger result, BigInteger result2) => result > result2;
+            bool smaller_check(BigInteger result, BigInteger result2) => result < result2;
+
+                switch (command)
+                         {
+                          case "=": 
+                                  check = equal_check(result,result2);
+                                  violate = false;
+                                  break;
+                          case "!=":
+                                  check = unequal_check(result, result2);
+                                  violate = false;
+                                  break;
+                          case ">":
+                                  check = bigger_check(result, result2);
+                                  violate = false;
+                                  break;
+                          case "<":
+                                  check = smaller_check(result, result2);
+                                  violate = false;
+                                  break;
+                          default:
+                                  violate = true;
+                                  break;
+                           }
 
 
                         
-            }
+                        }
 
             else if ( end==false || second_to_last ==false ) 
                 

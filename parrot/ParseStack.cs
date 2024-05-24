@@ -25,6 +25,10 @@ namespace parrot
             public readonly string if_word = "if";
             public readonly string else_word = "else";
             public readonly string increment = "inc";
+            public readonly string then_word = "then";
+            public readonly string else_then = "else-then";
+            public readonly string do_word = "do";
+            public readonly string loop_word = "loop";
 
         }
 
@@ -57,6 +61,10 @@ namespace parrot
 
             string increment = _tokens.increment;
             string if_string = _tokens.if_word;
+            string then_string = _tokens.then_word;
+            string do_string = _tokens.do_word;
+            string loop_string = _tokens.loop_word;
+            string else_word = _tokens.else_word;
 
             bool parseint = BigInteger.TryParse(word, out BigInteger number);
             // pattern for strings
@@ -197,7 +205,7 @@ namespace parrot
 
             }
 
-            else if (modes == OP_CODES.IF_Mode && word != "then")
+            else if (modes == OP_CODES.IF_Mode && word != then_string)
             {
                 
                 try
@@ -218,7 +226,7 @@ namespace parrot
 
                     {
                         do_loop_flag = false;
-                        while (word != "loop")
+                        while (word != loop_string)
                         {
                             register += register;
                             word = words[register];
@@ -227,7 +235,7 @@ namespace parrot
 
                     }
 
-                    else if (do_loop_flag == true && word == "loop" && loop_control_stack.Length() > 1)
+                    else if (do_loop_flag == true && word == loop_string && loop_control_stack.Length() > 1)
 
                     {
                         // Go back
@@ -292,7 +300,7 @@ namespace parrot
             }
 
 
-            else if (modes == OP_CODES.IF_Mode && word == "then")
+            else if (modes == OP_CODES.IF_Mode && word == then_string)
             {
                 // when in if mode and then
                 // switch modes to if_then_mode
@@ -379,7 +387,7 @@ namespace parrot
                             }
 
 
-                            else if (word == "else")
+                            else if (word == else_word)
                             {
                                 boolean_control_flow = false;
                                 register++;
@@ -393,9 +401,9 @@ namespace parrot
                                 register++;
                             }
 
-                            else if (word=="loop" && do_loop_flag==true)
+                            else if (word== loop_string && do_loop_flag==true)
                             {
-                                while (word != "do")
+                                while (word != do_string)
                                 {
                                     register--;
                                     word= words[register];
@@ -415,13 +423,13 @@ namespace parrot
                         case false:
 
                             //  Console.WriteLine(word);
-                            if (word != "else" && word!=";" && word!="\n")
+                            if (word != else_word && word!=";" && word!="\n")
                             {
                                 register++;
                                 //Console.WriteLine("do nothing");
                             }
 
-                            else if (word == "else")
+                            else if (word == else_word )
                             {
                                 register++;
                                 boolean_control_flow = true;
@@ -448,7 +456,7 @@ namespace parrot
 
             }
 
-            else if (word == "do" && modes != OP_CODES.COMMENT)
+            else if (word == do_string && modes != OP_CODES.COMMENT)
             {
 
                 try
@@ -523,7 +531,7 @@ namespace parrot
                 
             }
 
-            else if (word == "loop" && modes != OP_CODES.COMMENT)
+            else if (word == loop_string && modes != OP_CODES.COMMENT)
 
             // sees loop
             {
@@ -562,7 +570,7 @@ namespace parrot
 
                         } */
 
-                        while (word != "do")
+                        while (word != do_string)
                         // decrease register until do!
 
                         {

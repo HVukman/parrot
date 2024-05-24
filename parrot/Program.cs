@@ -14,6 +14,7 @@ using LanguageExt.ClassInstances;
 using LanguageExt.ClassInstances.Pred;
 using parrot;
 using static Microsoft.FSharp.Core.ByRefKinds;
+using LanguageExt;
 
 
 namespace Parrot { 
@@ -178,9 +179,13 @@ public class Parrot
 
         BigInteger allot = 0;
         int register = 0;
-        while (run)
+
+
         
-            
+
+        // MAIN LOOP
+        while (run)
+   
         {
 
             // Type instruction in REPL
