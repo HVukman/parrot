@@ -15,7 +15,8 @@ using LanguageExt.ClassInstances.Pred;
 using parrot;
 using static Microsoft.FSharp.Core.ByRefKinds;
 using LanguageExt;
-
+using static Parrot.Parrot;
+using Parser_Namespace;
 
 namespace Parrot { 
 public class Parrot
@@ -36,6 +37,7 @@ public class Parrot
             public bool do_loop_flag { get; set; }
             public bool while_flag { get; set; }
             public bool boolean_control_flow { get; set; }
+            public bigint allot { get; set; }
 
             public void Init()
             {
@@ -52,6 +54,7 @@ public class Parrot
                 do_loop_flag = false;
                 while_flag = false;
                 boolean_control_flow = false;
+                allot = 0;
             }
 
             public void Reset()
@@ -277,15 +280,10 @@ public class Parrot
                         {
                             string word = words[register];
                             word = word.ToLower();
-                           
 
-                            (violate, stack, CustomVars, modes, CustomWords, control_flow_stack,
-                                    control_buffer_stack, register, do_loop_flag, while_flag, boolean_control_flow, allot) =
-                                 ParseStack.Main(stack,
-                                oldstack, word, modes, CustomVars,
-                                CustomWords, control_flow_stack, control_buffer_stack, loop_control_stack,
-                                boolean_control_flow, do_loop_flag, while_flag, register, run, words, allot 
-                               );
+                            (stact, register, run, words) = Lexer.Main(stact, word, register, violate, words);
+  
+                             
 
                      //   Console.WriteLine("register " + modes.ToString());
                         }
@@ -293,10 +291,10 @@ public class Parrot
                         else if (violate == true)
                         {
                             modes = OP_CODES.Interpret;
-                            control_buffer_stack.Clear();
-                            loop_control_stack.Clear();
-                            do_loop_flag = false;
-                            while_flag = false;
+                            stact.control_buffer_stack.Clear();
+                            stact.loop_control_stack.Clear();
+                            stact.do_loop_flag = false;
+                            stact.while_flag = false;
                             register = 0;
                             break;
                             
@@ -310,15 +308,15 @@ public class Parrot
                 if (run != false)
                 {
                     register = 0;
-                    control_flow_stack.Clear();
-                    loop_control_stack.Clear();
-                    do_loop_flag = false;
-                    while_flag = false;                  
-                    control_buffer_stack.Clear();
+                    stact.control_flow_stack.Clear();
+                    stact.loop_control_stack.Clear();
+                    stact.do_loop_flag = false;
+                    stact.while_flag = false;                  
+                    stact.control_buffer_stack.Clear();
                     // Console.WriteLine("control stack clear");
                     if (userinput != "echo")
                     {
-                        DoForth.Printstack(stack);
+                        Parser.Printstack(stact.stack);
                     }
 
 

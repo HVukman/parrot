@@ -1,8 +1,10 @@
 pass structs not massive amounts of parameters
 change parmaters with events in structs
 
-fixed if then mode error
+sleep
 
+undo 
+redo
 
 2 10 accumulate -> sum of 2 to 10 
 
@@ -22,9 +24,16 @@ else .....
 
 if ... and ... then
 if... or ... then
+if... xor ... then
+if... nor ... then
 
-if_or_stack?
 
+if... and
+when and control-buffer clear and stack
+until then 
+(dynamic) boolean control stack [true, "and" , true]--> true
+(dynamic) boolean control stack [false, "and" , true]--> false
+[true, "or" false]
 
 ## math
 
@@ -63,6 +72,11 @@ some?
 (2 3 4 "stored") (>2) store-where -> "stored" variable with (1 2)
 
 variable class with objects
+
+
+1 Calendar.addyear
+2 Calendar.adddays (26/10/2000) -> (28/10/2000)
+DateTime.DayOfWeek 
 
 
 make word immediate?
