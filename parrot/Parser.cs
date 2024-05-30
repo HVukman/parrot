@@ -488,9 +488,9 @@ namespace Parser_Namespace
 
 
             public static (List<string>, List<string>, bool, Dictionary<string,string>, 
-            Dictionary<string, List<string>> ,bigint , OP_CODES) doSth(List<string> myList, List<string> control_buffer_stack, 
+            Dictionary<string, List<string>> ,bigint , OP_CODES, Struct_stact) doSth(List<string> myList, List<string> control_buffer_stack, 
                 string command, OP_CODES mode, bool loop_flag, List<int> loop_control_stack, Dictionary<string,string> CustomVars,
-                 Dictionary<string, List<string>> CustomWord, bigint allot)
+                 Dictionary<string, List<string>> CustomWord, bigint allot, Struct_stact stact)
 
             {
                 int number;
@@ -682,6 +682,7 @@ namespace Parser_Namespace
                             // future: allot vector
                             (allot, violate)=Allot(myList,allot); 
                             break;
+                        
 
                         default:
                             Console.WriteLine("sorry not there yet!");
@@ -733,6 +734,23 @@ namespace Parser_Namespace
                     case "sum":
                         (myList,violate)= Sum(myList, violate);
                         break;
+                    case "store-stack":
+                        stact.storedstack.Clear();
+                        stact.storedstack = myList.ToList();
+                        break;
+                    case "restore-stack":
+                        if (stact.storedstack.Length() > 0)
+                        {
+                            myList.Clear();
+                            myList = stact.storedstack.ToList();
+                        }
+                        else
+                        {
+                            Console.WriteLine("the restore stack is empty!");
+                            violate = true;
+                        }
+                        break;
+
                     default:
                         Console.WriteLine("not there yet");
                         break;
@@ -804,7 +822,7 @@ namespace Parser_Namespace
 
             }
 
-                if (success_add == true)
+            if (success_add == true)
                 {
                     // if compile adds to stack
                     // else puts boolean on stack
@@ -823,7 +841,7 @@ namespace Parser_Namespace
                     }
 
                 }
-                return (myList, control_buffer_stack, violate, CustomVars, CustomWord, allot, mode);
+                return (myList, control_buffer_stack, violate, CustomVars, CustomWord, allot, mode, stact);
 
             }
 
@@ -882,9 +900,10 @@ namespace Parser_Namespace
                             { 
 
                             // Console.WriteLine(command);
-                            (myList, control_buffer_stack, violate, CustomVars, CustomWords, allot, modes) = 
+                            (myList, control_buffer_stack, violate, CustomVars, CustomWords, allot, modes, stact) = 
                                     doSth(myList, control_buffer_stack, command, modes,
-                                            do_loop_flag, loop_control_stack, CustomVars, CustomWords, allot);
+                                            do_loop_flag, loop_control_stack, CustomVars, CustomWords, 
+                                            allot, stact);
                             }
 
                             if (modes == OP_CODES.IF_Mode ) 
@@ -896,7 +915,7 @@ namespace Parser_Namespace
 
                             else
                             {
-                                stact.stack = myList;
+                                stact.stack = myList.ToList();
                             }
 
                             stact.modes=modes;
@@ -911,7 +930,7 @@ namespace Parser_Namespace
                             stact.boolean_control_flow=boolean_control_flow;
                             stact.loop_control_stack=loop_control_stack;
                             stact.allot=allot;
-                            return (stact, violate );
+                            return (stact, violate);
 
                     }
         }

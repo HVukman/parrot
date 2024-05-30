@@ -415,7 +415,8 @@ namespace parrot
 
                             {
                                 int loop_i = loop_control_stack[loop_control_stack.Length() - 2];
-                                stack.Add(loop_i.ToString());
+                                
+                                struct_stack.stack.Add(loop_i.ToString());
                                 register++;
                                 //  Console.Write("index i: ", loop_i);
                             }
@@ -539,10 +540,11 @@ namespace parrot
 
                             loop_control_stack.Add(loop_start);
                             loop_control_stack.Add(loop_end);
-                            var stack_length = stack.Count;
-                            stack.RemoveAt(stack_length-1);
-                            stack_length = stack.Count;
-                            stack.RemoveAt(stack_length - 1);
+                            var stack_length = struct_stack.stack.Count;
+                            struct_stack.stack.RemoveAt(stack_length-1);
+                           
+                            stack_length = struct_stack.stack.Count;
+                            struct_stack.stack.RemoveAt(stack_length - 1);
                             //loop_control_stack[loop_control_stack.Length() - 2] = loop_start;
                             //loop_control_stack[loop_control_stack.Length() - 1] = loop_end;
 
@@ -700,7 +702,7 @@ namespace parrot
             else
             {
 
-                stack = oldstack.ToList();
+                struct_stack.stack = oldstack.ToList();
                 Console.WriteLine(modes);
                 Console.WriteLine(do_loop_flag);
                 Console.WriteLine(word + " not recognized!");
@@ -712,7 +714,7 @@ namespace parrot
             if (violate == true)
             // breaks loop under any cicumstance
             {
-                stack = oldstack.ToList();
+                struct_stack.stack = oldstack.ToList();
                 Console.WriteLine("Something went wrong. See error message. ");
                 modes = OP_CODES.Interpret;
             }
@@ -721,7 +723,7 @@ namespace parrot
             struct_stack.modes=modes;
             
             
-            struct_stack.stack = stack;
+           
             struct_stack.oldstack = oldstack;
             struct_stack.do_loop_flag= do_loop_flag;
             struct_stack.while_flag= while_flag;

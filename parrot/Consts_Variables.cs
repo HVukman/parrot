@@ -9,7 +9,7 @@
 
         public static List<string> standardwords = ["bye", "+", "add", "*", "mul", "-", "sub", "/", "div", "drop", "dup", "swap", "rot", "over", "nip", "clear",
             "echo", "rev", "curry", "dump", "=", "<", ">", "!=","inc","store", "fetch" , 
-            "define", "compile", "peek" ,"print", "allot","?vars","?consts","?funcs", "break" , "violate"];   
+            "define", "compile", "peek" ,"print", "allot","?vars","?consts","?funcs", "break" , "violate", "store-stack", "restore-stack"];   
        
         //public static string[] standardwords = ["bye", "+", "add", "*", "mul", "-", "sub", "/", "div", "drop", "dup", "swap", "rot", "over", "nip", "clear", 
          //   "echo", "rev", "curry", "dump", "=", "<", ">", "!=","inc","store", "fetch"];
@@ -17,7 +17,7 @@
         public static string[] comparisons = ["=", "<", ">", "!="];
         public static string[] booleans = ["if", "else", "then"];
         public static string[] standard_stackops = ["drop", "dup", "swap", "rot", "over", "nip", "clear", "rev", "fetch", "peek" , "print"];
-        public static string[] ext_stackops = ["sum", "prod"];
+        public static string[] ext_stackops = ["sum", "prod","store-stack","restore-stack"];
         public static string[] do_loop = ["do", "loop"];
         public static string[] definitions = ["store", "define"];
         public static string[] while_loop = ["begin-while", "end-while"];

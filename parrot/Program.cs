@@ -28,6 +28,7 @@ public class Parrot
 
             public List<string> stack { get; set; }
             public List<string> oldstack { get; set; }
+            public List<string> storedstack { get; set; }
             public OP_CODES modes { get; set; }
             public Dictionary<string, string> CustomVars { get; set; }
             public Dictionary<string, List<string>> CustomWords { get; set; }
@@ -43,6 +44,7 @@ public class Parrot
             {
                 stack = new List<string>();
                 oldstack = new List<string>();
+                storedstack = new List<string>();
                 control_flow_stack = new List<bool>();
                 control_buffer_stack = new List<string>();
                 modes = OP_CODES.Interpret;
@@ -102,7 +104,6 @@ public class Parrot
 
 
 
-
     [Flags]
     public enum IF_THEN: int
     {
@@ -116,6 +117,7 @@ public class Parrot
         WHILE,
         BREAK
     }
+
 
     static public void Main()
     {
@@ -131,60 +133,30 @@ public class Parrot
         stact.Init();
 
         char[] delimiterChars = {' ', ',', '.', ':', '\t' };
-        List<string> oldstack = stact.oldstack;
-            //string userinput;
-
-
-            // ENUMS and FLAGS
-        OP_CODES modes = stact.modes;
-        IF_THEN iF_THEN_ELSE;
 
 
         List<string> oldinputs= new List<string>();
-        List<string> stack = stact.stack;
+       
 
-        List<List<string>> cyclestack = new List<List<string>>();
-
-        List<bool> control_flow_stack = stact.control_flow_stack;
-        List<string> control_buffer_stack = stact.control_buffer_stack;
+        // ?? List<List<string>> cyclestack = new List<List<string>>();
 
         List<string> pre_processed_words = new List<string>();
         List <string> words = new List<string>();
         List<string> commands= new List<string>(); ;
         List<string> command = new List<string>();
 
-
-        List<int> loop_control_stack = stact.loop_control_stack;
-        bool boolean_control_flow = stact.boolean_control_flow;
-
-
+        OP_CODES modes = stact.modes;
         var panel = new Panel("Hello There!");
         AnsiConsole.Write(
         new FigletText("This is Parrot")
         .LeftJustified()
         .Color(Color.Gold1));
 
-
-        // Custom Words Dictionary
-        Dictionary<string, List<string>> CustomWords =
-                stact.CustomWords;
-
-            // Custom Variables Dictionary
-        Dictionary<string, string> CustomVars =
-                stact.CustomVars;
-
         // system settings
             Dictionary<string, string> Systemvars =
                     new Dictionary<string, string>();
 
-        bool do_loop_flag = stact.do_loop_flag;
-        bool while_flag = stact.while_flag;
-
-        BigInteger allot = 0;
         int register = 0;
-
-
-        
 
         // MAIN LOOP
         while (run)
