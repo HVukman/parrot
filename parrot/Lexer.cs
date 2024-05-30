@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Text.RegularExpressions;
 using static Parrot.Parrot;
 using Parser_Namespace;
+using System.Diagnostics;
 
 namespace parrot
 {
@@ -31,6 +32,64 @@ namespace parrot
 
             stack_fail = stack_old.ToList();
 
+        }
+
+        static private (bool, bool, OP_CODES, int) while_check(List<string> myList, int register, bool violate, 
+            bool while_flag,
+            OP_CODES mode,  string word, List<string> words)
+        {
+            bool end_check;
+            {
+
+                try
+                {
+
+                    end_check= bool.Parse(myList.Last());
+                    if (end_check == false)
+                    {
+                        // continue
+                        while_flag = false;
+                        register++;
+
+
+                    }
+                    else if (end_check == true)
+                    {
+                        mode=OP_CODES.Interpret;
+                        while (word != "begin-while")
+                        // decrease register until do!
+
+                        {
+                           
+                            register--;
+                            while_flag = true;
+                            
+                            // Console.WriteLine("register: ", register.ToString());
+                            // Console.WriteLine("word: ", word);
+                            word = words[register];
+
+                        }
+                        register++;
+                    }
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    Console.WriteLine("there is nothing on the return stack!");
+                    violate = true;
+                }
+                catch (ArgumentNullException)
+                {
+                    Console.WriteLine("Stack is too small!");
+                    violate = true;
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("There must be a bool check after the while!");
+                    violate = true;
+                }
+
+            }
+            return (violate, while_flag, mode, register);
         }
 
         static private (Struct_stact, int, bool, List<string>) 
@@ -174,7 +233,7 @@ namespace parrot
 
                     if (while_flag == true)
                     {
-                        struct_stack.stack = control_buffer_stack;
+                        //struct_stack.stack = control_buffer_stack;
                         (struct_stack, violate) = Parser.Main(struct_stack, word, violate);
                         register++;
                     }
@@ -260,17 +319,20 @@ namespace parrot
                                 (BigInteger.TryParse(word, out BigInteger number4)) || standardwords.Contains(word)))
 
                     {
-                        struct_stack.stack = control_buffer_stack;
-                        (struct_stack, violate) = Parser.Main(struct_stack, word, violate);               
+                        (struct_stack, violate) = Parser.Main(struct_stack, word, violate);
                         register++;
                     }
-
-                    else
+                      
+                     else if (word=="end-while")
+                    
                     {
-                        Console.WriteLine("are you here?");
-                        violate = true;
-                    }
 
+                        (violate, while_flag, modes, register) = while_check(control_buffer_stack, register, violate, 
+                                    while_flag, modes, word, words);
+                    
+                    }
+                    
+        
                 }
                 catch (ArgumentOutOfRangeException)
                 {
@@ -305,8 +367,13 @@ namespace parrot
                 modes = OP_CODES.IF_THEN_Mode;
                 try
                 {
-                    // access top of control buffer
+                    control_flow_stack.Add(bool.Parse(control_buffer_stack[control_buffer_stack.Count - 1]));
+
+                    control_buffer_stack.RemoveAt(control_buffer_stack.Count - 1);
                     boolean_control_flow = control_flow_stack[control_flow_stack.Count - 1];
+                    // bool ending_control_buffer_stack = bool.Parse(ending);
+                    // access top of control buffer
+                    control_flow_stack.RemoveAt(control_flow_stack.Count -1);
                     register++;
                     // PRINT STATEMENT
 
@@ -323,26 +390,24 @@ namespace parrot
                     // PRINT STATEMENT
                     Console.WriteLine("There is nothing on the return stack!");
 
-                    //Console.WriteLine(booleans.Contains(word).ToString());
-                    //Console.WriteLine(modes.ToString());
-                    //throw new DoForthErrorException("there is nothing on the control stack!");
+                }
 
+                catch (FormatException)
+                {
+                    Console.WriteLine("there was no comparison made at the end");
+                    violate = true;
                 }
 
             }
 
             else if (modes == OP_CODES.IF_THEN_Mode)
             {
-
-                
-                
+ 
                 try {
                     switch (boolean_control_flow)
                     {
                         // when flow true: do forth until else
                         case true:
-
-
 
                             if (do_loop_flag == true && word == increment)
                             // Use loop index while in loop
@@ -352,7 +417,7 @@ namespace parrot
                                 int loop_i = loop_control_stack[loop_control_stack.Length() - 2];
                                 stack.Add(loop_i.ToString());
                                 register++;
-                                //                                      Console.Write("index i: ", loop_i);
+                                //  Console.Write("index i: ", loop_i);
                             }
 
                             else if ((mult_add_wors.Contains(word) || ext_stackops.Contains(word) || extrawords.Contains(word) || Regex.IsMatch(word, pattern) || 
@@ -371,14 +436,11 @@ namespace parrot
                                 else {
 
                                     (struct_stack, violate) = Parser.Main(struct_stack, word, violate);
-
                                     register++;
 
                                 }
                                 
-                                
                             }
-
 
                             else if (word == else_word)
                             {
@@ -422,7 +484,7 @@ namespace parrot
                                 //Console.WriteLine("do nothing");
                             }
 
-                            else if (word == else_word )
+                            else if (word == else_word)
                             {
                                 register++;
                                 boolean_control_flow = true;
@@ -584,7 +646,7 @@ namespace parrot
 
             {
          //       Console.WriteLine("begin while");
-                while_flag = false;
+                while_flag = true;
                 register++;
             }
 
@@ -593,73 +655,27 @@ namespace parrot
                 
                 if (while_flag == false)
                 {
-                    while_flag = true;
-                    control_buffer_stack = stack.ToList();
+                    //while_flag = true;
+                    // control_buffer_stack = stack.ToList();
                     
-                    // Console.WriteLine("while only in while loop!");
-                    // violate= true;
+                    Console.WriteLine("while only in while loop!");
+                    violate= true;
                 }
 
                 if (while_flag == true)
                 {
-                    
+                    control_buffer_stack=stack.ToList();
+                    modes = OP_CODES.IF_Mode;
+                    register++;
                     //Console.WriteLine("Only one while!");
                     // violate=true;
 
                 }
-                register++;
+                
                
             }
 
-            else if (word == "end-while")
-            {
-                while_flag = false;
-                
-                try
-                {
-
-                    bool end_check = bool.Parse(control_buffer_stack.Last());
-                    if (end_check == false)
-                    {
-                        // continue
-                        while_flag = false;
-                        register++;
-                        
-
-                    }
-                    else if (end_check == true)
-                    {
-
-                        while (word != "begin-while")
-                        // decrease register until do!
-
-                        {
-
-                            register--;
-                            // Console.WriteLine("register: ", register.ToString());
-                            // Console.WriteLine("word: ", word);
-                            word = words[register];
-
-                        }
-                    }
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    Console.WriteLine("there is nothing on the return stack!");
-                    violate = true;
-                }
-                catch (ArgumentNullException)
-                {
-                    Console.WriteLine("Stack is too small!");
-                    violate = true;
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("There must be a bool check after the while!");
-                    violate = true;
-                }
-                
-            }
+            
 
             else if (word == ";" && modes != OP_CODES.COMMENT)
 
@@ -721,15 +737,12 @@ namespace parrot
         
         
         public static (Struct_stact, int, bool, List<string>) 
-            Main(Struct_stact struct_stack, string word, int register, bool run, List<string> words)
+            Main(Struct_stact struct_stack, string word, int register, bool violate, List<string> words)
             
             
         {
             var CustomWords = struct_stack.CustomWords;
 
-
-
-            bool violate=false;
 
             if (word == "define")
             {
@@ -778,8 +791,8 @@ namespace parrot
 
                 try {
                     {
-                        (struct_stack, register, run, words)
-                                           = ParsingStack(struct_stack, word, register,  run, words);
+                        (struct_stack, register, violate, words)
+                                           = ParsingStack(struct_stack, word, register, violate, words);
 
                     }
 
@@ -799,7 +812,7 @@ namespace parrot
                 
                 }
 
-            return (struct_stack, register, run, words);
+            return (struct_stack, register, violate, words);
         }
     }
 }

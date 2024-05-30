@@ -195,62 +195,48 @@ public class Parrot
             string userinput = AnsiConsole.Ask<string>("What's your [gold1]input[/]?");
             oldinputs.Add(userinput);
             userinput = userinput.Trim();
-                // Console.WriteLine("Enter Instruction ->");
+       
 
-                // Create a string variable and get user input from the keyboard and store it in the variable
-
-
-                // var userinput = Console.ReadLine().Trim();
-
-
-                //commands = userinput.Split(delimiterChars);
-
-
-
-                commands = Regex.Matches(userinput, @"\""(\""\""|[^\""])+\""|[^ ]+",
+                // regex for strings like "hello world"
+            commands = Regex.Matches(userinput, @"\""(\""\""|[^\""])+\""|[^ ]+",
                 RegexOptions.ExplicitCapture)
                   .Cast<Match>()
                   .Select(m => m.Value)
                   .ToList();
 
 
-                //pre_processed_words = commands.ToList();
-
-                // words = commands.ToList();
-                //string pattern = @"^""[\w\s!:\(\)]+""$";
-
-                string semicolon_pattern =@"(?<=\w)(?=;)";
+            string semicolon_pattern =@"(?<=\w)(?=;)";
 
 
             // Separate seimicolon from word
             
-            foreach (string word in commands) {
+                foreach (string word in commands) {
                 
-                if (word[word.Length()-1]==';' && word!=";")
-                {
-                    string[] semicolon_strings = [word.Substring(0, word.Length - 1), word.Substring(word.Length - 1,1)];
-                    foreach (var semicolon_string in semicolon_strings)
+                    if (word[word.Length()-1]==';' && word!=";")
                     {
+                        string[] semicolon_strings = [word.Substring(0, word.Length - 1), word.Substring(word.Length - 1,1)];
+                        foreach (var semicolon_string in semicolon_strings)
+                        {
                         
-                        words.Add(semicolon_string.Trim().ToLower());
-                        // Console.WriteLine(semicolon_string);
+                            words.Add(semicolon_string.Trim().ToLower());
+                            // Console.WriteLine(semicolon_string);
+                        }
                     }
-                }
-                else if (word=="" || word==" ")
-                {
-                    continue;
-                }
+                    else if (word=="" || word==" ")
+                    {
+                        continue;
+                    }
                 
-                else
-                {
-                    words.Add (word.Trim());
-                }
+                    else
+                    {
+                        words.Add (word.Trim());
+                    }
                 
-            }
+                }
 
-            int input_length= words.Count();
-            commands.Clear();
-            Console.WriteLine("input length: " + input_length.ToString());
+                int input_length= words.Count();
+                commands.Clear();
+                Console.WriteLine("input length: " + input_length.ToString());
 
                 /*
                 Stopwatch sw;
@@ -281,7 +267,7 @@ public class Parrot
                             string word = words[register];
                             word = word.ToLower();
 
-                            (stact, register, run, words) = Lexer.Main(stact, word, register, violate, words);
+                            (stact, register, violate, words) = Lexer.Main(stact, word, register, violate, words);
   
                              
 
@@ -300,7 +286,6 @@ public class Parrot
                             
 
                         }
-                        
 
                     }
                 }

@@ -810,16 +810,12 @@ namespace Parser_Namespace
                     // else puts boolean on stack
                     switch (mode)
                     {
-                        case OP_CODES.Interpret:
+                         case OP_CODES.Interpret or OP_CODES.IF_THEN_Mode:
                             Pop(myList);
                             Pop(myList);
                             myList.Add(result.ToString());
                             break;
-                        case OP_CODES.IF_THEN_Mode:
-                            Pop(myList);
-                            Pop(myList);
-                            myList.Add(result.ToString());
-                            break;
+                        
                         case OP_CODES.IF_Mode:
                             myList.Add(result.ToString());
                             break;
@@ -840,7 +836,7 @@ namespace Parser_Namespace
                             var modes = stact.modes;
                             var CustomWords = stact.CustomWords;
                             var CustomVars = stact.CustomVars;
-                            var myList= stact.stack;
+                            
                             var oldstack = stact.oldstack;
                             var do_loop_flag = stact.do_loop_flag;
                             var while_flag = stact.while_flag;
@@ -851,7 +847,20 @@ namespace Parser_Namespace
                             var allot = stact.allot;
 
                             string pattern = @"^""[\w\s!:\(\)]+""$";
+
+                            var myList = new List<string>();
+
                             
+                            if (modes == OP_CODES.IF_Mode)
+
+                            {
+                                myList = control_buffer_stack;
+                            }
+                            else
+                            {
+                                myList = stact.stack;
+                            }
+
                             int number;
                             // Add integer to stack
                             if (int.TryParse(command, out number) == true)
@@ -870,21 +879,34 @@ namespace Parser_Namespace
 
                             
                             else
-                            {
+                            { 
+
                             // Console.WriteLine(command);
                             (myList, control_buffer_stack, violate, CustomVars, CustomWords, allot, modes) = 
                                     doSth(myList, control_buffer_stack, command, modes,
                                             do_loop_flag, loop_control_stack, CustomVars, CustomWords, allot);
                             }
 
+                            if (modes == OP_CODES.IF_Mode ) 
+
+                            {
+                                stact.control_buffer_stack = myList;
+                            }
+
+
+                            else
+                            {
+                                stact.stack = myList;
+                            }
+
                             stact.modes=modes;
                             stact.CustomWords=CustomWords;
                             stact.CustomVars=CustomVars;
-                            stact.stack= myList;
+                           
                             stact.oldstack=oldstack;
                             stact.do_loop_flag=do_loop_flag;
                             stact.while_flag=while_flag;
-                            stact.control_buffer_stack=control_buffer_stack;
+                            
                             stact.control_flow_stack=control_flow_stack;
                             stact.boolean_control_flow=boolean_control_flow;
                             stact.loop_control_stack=loop_control_stack;
